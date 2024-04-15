@@ -41,26 +41,19 @@
 #     main()
 #CAM PERMISSION---------------------------------------
 import streamlit as st
-import numpy as np
-from streamlit_webrtc import VideoTransformerBase, webrtc_streamer
-
-class VideoTransformer(VideoTransformerBase):
-    def transform(self, frame):
-        # Perform any processing on the frame here if needed
-        return frame
+from streamlit_webrtc import webrtc_streamer
 
 def main():
     st.title("Webcam Video Stream")
 
     webrtc_ctx = webrtc_streamer(
         key="example",
-        video_transformer_factory=VideoTransformer,
-        async_transform=True,
+        video_transformer_factory=None,  # No processing needed
+        async_transform=False,  # No need for async processing
     )
 
     if webrtc_ctx.video_transformer:
         st.write("Streaming webcam feed...")
-        webrtc_ctx.video_transformer.run()
 
 if __name__ == "__main__":
     main()
