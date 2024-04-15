@@ -52,7 +52,7 @@ def main():
         async_transform=False,  # No need for async processing
     )
 
-    if webrtc_ctx.video_transformer:
+    if webrtc_ctx.state.playing:
         st.write("Streaming webcam feed...")
 
 if __name__ == "__main__":
