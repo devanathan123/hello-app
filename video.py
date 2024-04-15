@@ -25,8 +25,7 @@ import numpy as np
 
 def main():
     st.title("Streamlit Webcam Player")
-    video_url = "https://firebasestorage.googleapis.com/v0/b/fir-ec695.appspot.com/o/t-13%2Finput_side.mp4?alt=media&token=0cf29a63-b98b-451a-a9f5-7e2d71caf9c3"
-    cap = cv2.VideoCapture(video_url)
+    cap = cv2.VideoCapture(0)
     load = st.button("STOP")
     stframe = st.empty()
     while not load:
