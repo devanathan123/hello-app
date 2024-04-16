@@ -54,38 +54,63 @@
 
 # if __name__ == "__main__":
 #     main()
-#Storage file ----------------------------------------------
-import streamlit as st
-import cv2
-import tempfile
+#Storage file --CV2 ----------------------------------------------
+# import streamlit as st
+# import cv2
+# import tempfile
 
-st.title("Streamlit Webcam Player")
+# st.title("Streamlit Webcam Player")
+
+# def main():
+#     uploaded_file = st.file_uploader("Upload a video", type=["mp4", "avi"])
+
+#     if uploaded_file is not None:
+#         # Save the uploaded file to a temporary location
+#         with tempfile.NamedTemporaryFile(delete=False) as temp_file:
+#             temp_file.write(uploaded_file.read())
+#             temp_file_path = temp_file.name
+
+#         # Open the video file using OpenCV
+#         cap = cv2.VideoCapture(temp_file_path)
+#         load = st.button("STOP")
+#         stframe = st.empty()
+
+#         while not load:
+#             success, img = cap.read()
+#             if not success:
+#                 break
+
+#             # Display the frame in the video element
+#             stframe.image(img, channels='BGR', use_column_width=True)
+
+#         # Release the video capture object and delete the temporary file
+#         cap.release()
+#         del temp_file
+
+# if __name__ == "__main__":
+#     main()
+# STORAGE --> webrtc ---------------------------------------
+import streamlit as st
+from streamlit_webrtc import webrtc_streamer
 
 def main():
+    st.title("Streamlit Webcam Player")
+
     uploaded_file = st.file_uploader("Upload a video", type=["mp4", "avi"])
 
     if uploaded_file is not None:
-        # Save the uploaded file to a temporary location
-        with tempfile.NamedTemporaryFile(delete=False) as temp_file:
-            temp_file.write(uploaded_file.read())
-            temp_file_path = temp_file.name
+        video_file = uploaded_file.name
+        webrtc_ctx = webrtc_streamer(
+            key="example",
+            video_processor_factory=None,  # No need for custom processing
+            mode="file",
+            file_handler=uploaded_file,
+        )
 
-        # Open the video file using OpenCV
-        cap = cv2.VideoCapture(temp_file_path)
-        load = st.button("STOP")
-        stframe = st.empty()
-
-        while not load:
-            success, img = cap.read()
-            if not success:
-                break
-
-            # Display the frame in the video element
-            stframe.image(img, channels='BGR', use_column_width=True)
-
-        # Release the video capture object and delete the temporary file
-        cap.release()
-        del temp_file
+        if webrtc_ctx.video_processor:
+            st.write("Streaming video...")
+        else:
+            st.warning("Error loading video.")
 
 if __name__ == "__main__":
     main()
