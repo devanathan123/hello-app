@@ -57,16 +57,35 @@
 #Storage file ----------------------------------------------
 import streamlit as st
 import cv2
-import numpy as np
+import tempfile
 
 st.title("Streamlit Webcam Player")
-
 
 def main():
     uploaded_file = st.file_uploader("Upload a video", type=["mp4", "avi"])
 
     if uploaded_file is not None:
-        st.video(uploaded_file)
+        # Save the uploaded file to a temporary location
+        with tempfile.NamedTemporaryFile(delete=False) as temp_file:
+            temp_file.write(uploaded_file.read())
+            temp_file_path = temp_file.name
+
+        # Open the video file using OpenCV
+        cap = cv2.VideoCapture(temp_file_path)
+        load = st.button("STOP")
+        stframe = st.empty()
+
+        while not load:
+            success, img = cap.read()
+            if not success:
+                break
+
+            # Display the frame in the video element
+            stframe.image(img, channels='BGR', use_column_width=True)
+
+        # Release the video capture object and delete the temporary file
+        cap.release()
+        del temp_file
 
 if __name__ == "__main__":
     main()
