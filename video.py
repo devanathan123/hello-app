@@ -6,42 +6,36 @@
 #     st.title("Streamlit Video Player")
 #
 #     # Google Drive video URL
-#     #video_url = "https://firebasestorage.googleapis.com/v0/b/fir-ec695.appspot.com/o/t-13%2Finput_side.mp4?alt=media&token=0cf29a63-b98b-451a-a9f5-7e2d71caf9c3"  # Replace "your-file-id" with the actual file ID
+#     video_url = "https://firebasestorage.googleapis.com/v0/b/fir-ec695.appspot.com/o/t-13%2Finput_side.mp4?alt=media&token=0cf29a63-b98b-451a-a9f5-7e2d71caf9c3"  # Replace "your-file-id" with the actual file ID
 #
 #     # Display the video
-#     #st.video(video_url)
-#
-#     cap = cv2.VideoCapture(0)
-#     while True:
-#         success, img = cap.read()
-#         cv2.imshow("image",img)
-#         cv2.waitKey(1)
+#     st.video(video_url)
 #
 # if __name__ == "__main__":
 #     main()
 #WEBCAM------------------------------------------------
-import streamlit as st
-import cv2
-import numpy as np
+# import streamlit as st
+# import cv2
+# import numpy as np
 
-st.title("Streamlit Webcam Player")
+# st.title("Streamlit Webcam Player")
     
-def main():
-    video_url = "https://firebasestorage.googleapis.com/v0/b/fir-ec695.appspot.com/o/t-13%2Finput_side.mp4?alt=media&token=0cf29a63-b98b-451a-a9f5-7e2d71caf9c3"  # Replace "your-file-id" with the actual file ID
-    cap = cv2.VideoCapture(video_url)
-    load = st.button("STOP")
-    stframe = st.empty()
+# def main():
+#     video_url = "https://firebasestorage.googleapis.com/v0/b/fir-ec695.appspot.com/o/t-13%2Finput_side.mp4?alt=media&token=0cf29a63-b98b-451a-a9f5-7e2d71caf9c3"  # Replace "your-file-id" with the actual file ID
+#     cap = cv2.VideoCapture(video_url)
+#     load = st.button("STOP")
+#     stframe = st.empty()
 
-    while not load:
-        success, img = cap.read()
-        if not success:
-            break
+#     while not load:
+#         success, img = cap.read()
+#         if not success:
+#             break
 
-        # Display the frame in the video element
-        stframe.image(img, channels='BGR', use_column_width=True)
+#         # Display the frame in the video element
+#         stframe.image(img, channels='BGR', use_column_width=True)
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
 #CAM PERMISSION---------------------------------------
 # import streamlit as st
 # from streamlit_webrtc import webrtc_streamer
@@ -60,3 +54,19 @@ if __name__ == "__main__":
 
 # if __name__ == "__main__":
 #     main()
+#Storage file ----------------------------------------------
+import streamlit as st
+import cv2
+import numpy as np
+
+st.title("Streamlit Webcam Player")
+
+
+def main():
+    uploaded_file = st.file_uploader("Upload a video", type=["mp4", "avi"])
+
+    if uploaded_file is not None:
+        st.video(uploaded_file)
+
+if __name__ == "__main__":
+    main()
