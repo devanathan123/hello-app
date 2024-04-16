@@ -20,40 +20,42 @@
 # if __name__ == "__main__":
 #     main()
 #WEBCAM------------------------------------------------
-# import streamlit as st
-# import cv2
-# import numpy as np
-
-# def main():
-#     st.title("Streamlit Webcam Player")
-#     cap = cv2.VideoCapture(0)
-#     load = st.button("STOP")
-#     stframe = st.empty()
-#     while not load:
-#         success, img = cap.read()
-#         if not success:
-#             break
-
-#         # Display the frame in the video element
-#         stframe.image(img, channels='BGR', use_column_width=True)
-
-# if __name__ == "__main__":
-#     main()
-#CAM PERMISSION---------------------------------------
 import streamlit as st
-from streamlit_webrtc import webrtc_streamer
+import cv2
+import numpy as np
 
+st.title("Streamlit Webcam Player")
+cap = cv2.VideoCapture(0)
+    
 def main():
-    st.title("Webcam Video Stream")
+    load = st.button("STOP")
+    stframe = st.empty()
 
-    webrtc_ctx = webrtc_streamer(
-        key="example",
-        video_transformer_factory=None,  # No processing needed
-        async_transform=False,  # No need for async processing
-    )
+    while not load:
+        success, img = cap.read()
+        if not success:
+            break
 
-    if webrtc_ctx.state.playing:
-        st.write("Streaming webcam feed...")
+        # Display the frame in the video element
+        stframe.image(img, channels='BGR', use_column_width=True)
 
 if __name__ == "__main__":
     main()
+#CAM PERMISSION---------------------------------------
+# import streamlit as st
+# from streamlit_webrtc import webrtc_streamer
+
+# def main():
+#     st.title("Webcam Video Stream")
+
+#     webrtc_ctx = webrtc_streamer(
+#         key="example",
+#         video_transformer_factory=None,  # No processing needed
+#         async_transform=False,  # No need for async processing
+#     )
+
+#     if webrtc_ctx.state.playing:
+#         st.write("Streaming webcam feed...")
+
+# if __name__ == "__main__":
+#     main()
