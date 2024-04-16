@@ -91,7 +91,11 @@
 #     main()
 # STORAGE --> webrtc ---------------------------------------
 import streamlit as st
-from streamlit_webrtc import webrtc_streamer
+from streamlit_webrtc import webrtc_streamer, VideoTransformerBase
+
+class VideoTransformer(VideoTransformerBase):
+    def transform(self, frame):
+        return frame
 
 def main():
     st.title("Streamlit Webcam Player")
@@ -102,7 +106,7 @@ def main():
         video_file = uploaded_file.name
         webrtc_ctx = webrtc_streamer(
             key="example",
-            video_processor_factory=None,  # No need for custom processing
+            video_processor_factory=VideoTransformer,
             mode="file",
             file_handler=uploaded_file,
         )
