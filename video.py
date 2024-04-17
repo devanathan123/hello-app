@@ -91,30 +91,23 @@
 #     main()
 # STORAGE --> webrtc ---------------------------------------
 import streamlit as st
-from streamlit_webrtc import webrtc_streamer, VideoTransformerBase
-
-class VideoTransformer(VideoTransformerBase):
-    def transform(self, frame):
-        return frame
+import os
 
 def main():
-    st.title("Streamlit Webcam Player")
+    st.title("Streamlit Video Player")
 
     uploaded_file = st.file_uploader("Upload a video", type=["mp4", "avi"])
 
     if uploaded_file is not None:
-        video_file = uploaded_file.name
-        webrtc_ctx = webrtc_streamer(
-            key="example",
-            video_processor_factory=VideoTransformer,
-            mode="file",
-            file_handler=uploaded_file,
-        )
+        # Save the uploaded file to a temporary location
+        with open("temp_video.mp4", "wb") as f:
+            f.write(uploaded_file.read())
 
-        if webrtc_ctx.video_processor:
-            st.write("Streaming video...")
-        else:
-            st.warning("Error loading video.")
+        # Display the video using st.video
+        st.video("temp_video.mp4")
+
+        # Remove the temporary file after displaying the video
+        os.remove("temp_video.mp4")
 
 if __name__ == "__main__":
     main()
