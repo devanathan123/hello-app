@@ -55,47 +55,47 @@
 # if __name__ == "__main__":
 #     main()
 #Storage file --CV2 ----------------------------------------------
-import streamlit as st
-import cv2
-from PIL import Image
-import tempfile
-import os
+# import streamlit as st
+# import cv2
+# from PIL import Image
+# import tempfile
+# import os
 
-def main():
-    st.title("Streamlit Video Player")
+# def main():
+#     st.title("Streamlit Video Player")
 
-    uploaded_file = st.file_uploader("Upload a video", type=["mp4", "avi"])
+#     uploaded_file = st.file_uploader("Upload a video", type=["mp4", "avi"])
 
-    if uploaded_file is not None:
-        # Save the uploaded file to a temporary location
-        temp_file = tempfile.NamedTemporaryFile(delete=False)
-        temp_file.write(uploaded_file.read())
+#     if uploaded_file is not None:
+#         # Save the uploaded file to a temporary location
+#         temp_file = tempfile.NamedTemporaryFile(delete=False)
+#         temp_file.write(uploaded_file.read())
 
-        # Display the video frame by frame
-        stop_button = st.button("Stop")
-        stframe = st.empty()
-        cap = cv2.VideoCapture(temp_file.name)
+#         # Display the video frame by frame
+#         stop_button = st.button("Stop")
+#         stframe = st.empty()
+#         cap = cv2.VideoCapture(temp_file.name)
 
-        while cap.isOpened() and not stop_button:
-            ret, frame = cap.read()
-            if not ret:
-                break
+#         while cap.isOpened() and not stop_button:
+#             ret, frame = cap.read()
+#             if not ret:
+#                 break
 
-            # Convert the frame from BGR to RGB
-            rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+#             # Convert the frame from BGR to RGB
+#             rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
-            # Display the frame
-            #st.image(Image.fromarray(rgb_frame))
-            stframe.image(Image.fromarray(rgb_frame))
+#             # Display the frame
+#             #st.image(Image.fromarray(rgb_frame))
+#             stframe.image(Image.fromarray(rgb_frame))
 
-        # Close the video capture object
-        cap.release()
+#         # Close the video capture object
+#         cap.release()
 
-        # Remove the temporary file
-        os.unlink(temp_file.name)
+#         # Remove the temporary file
+#         os.unlink(temp_file.name)
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
 # STORAGE --> webrtc ---------------------------------------
 # import streamlit as st
 # import os
@@ -118,3 +118,51 @@ if __name__ == "__main__":
 
 # if __name__ == "__main__":
 #     main()
+# STORAGE --> webrtc video ----------------------------------------
+import streamlit as st
+from streamlit_webrtc import webrtc_streamer, VideoTransformerBase
+import cv2
+import numpy as np
+from PIL import Image
+
+class VideoTransformer(VideoTransformerBase):
+    def __init__(self):
+        self.stop_button = False
+
+    def transform(self, frame):
+        # Check if stop button is clicked
+        if self.stop_button:
+            return None
+        
+        # Convert the frame from BGR to RGB
+        rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        # Convert the frame to PIL Image
+        pil_image = Image.fromarray(rgb_frame)
+        return np.array(pil_image)
+
+def main():
+    st.title("Streamlit Video Player")
+
+    uploaded_file = st.file_uploader("Upload a video", type=["mp4", "avi"])
+
+    if uploaded_file is not None:
+        # Display the video using streamlit-webrtc
+        video_transformer = VideoTransformer()
+        webrtc_ctx = webrtc_streamer(
+            key="example",
+            video_transformer_factory=lambda: video_transformer,
+            async_transform=True,
+            mode="sendrecv",
+            rtc_configuration={"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]}
+        )
+
+        if webrtc_ctx.video_transformer:
+            st.write("Streaming video...")
+            # Write the video to the webrtc_ctx
+            webrtc_ctx.video_transformer.transform(cv2.VideoCapture(uploaded_file))
+
+            # Add stop button
+            video_transformer.stop_button = st.button("Stop")
+
+if __name__ == "__main__":
+    main()
