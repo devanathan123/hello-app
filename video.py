@@ -73,7 +73,7 @@ def main():
 
         # Display the video frame by frame
         stop_button = st.button("Stop")
-
+        stframe = st.empty()
         cap = cv2.VideoCapture(temp_file.name)
 
         while cap.isOpened() and not stop_button:
@@ -85,7 +85,8 @@ def main():
             rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
             # Display the frame
-            st.image(Image.fromarray(rgb_frame))
+            #st.image(Image.fromarray(rgb_frame))
+            stframe.image(Image.fromarray(rgb_frame))
 
         # Close the video capture object
         cap.release()
