@@ -152,6 +152,7 @@ def main():
             key="example",
             video_transformer_factory=lambda: video_transformer,
             async_transform=True,
+            mode="recvonly",
             rtc_configuration={"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]}
         )
 
