@@ -13,29 +13,29 @@
 #
 # if __name__ == "__main__":
 #     main()
-#WEBCAM------------------------------------------------
-# import streamlit as st
-# import cv2
-# import numpy as np
+#VIDEO CAPTURE------------------------------------------------
+import streamlit as st
+import cv2
+import numpy as np
 
-# st.title("Streamlit Webcam Player")
+st.title("Streamlit Webcam Player")
     
-# def main():
-#     video_url = "https://firebasestorage.googleapis.com/v0/b/fir-ec695.appspot.com/o/t-13%2Finput_side.mp4?alt=media&token=0cf29a63-b98b-451a-a9f5-7e2d71caf9c3"  # Replace "your-file-id" with the actual file ID
-#     cap = cv2.VideoCapture(video_url)
-#     load = st.button("STOP")
-#     stframe = st.empty()
+def main():
+    video_url = "https://firebasestorage.googleapis.com/v0/b/fir-ec695.appspot.com/o/t-13%2Finput_side.mp4?alt=media&token=0cf29a63-b98b-451a-a9f5-7e2d71caf9c3"  # Replace "your-file-id" with the actual file ID
+    cap = cv2.VideoCapture(video_url)
+    load = st.button("STOP")
+    stframe = st.empty()
 
-#     while not load:
-#         success, img = cap.read()
-#         if not success:
-#             break
+    while not load:
+        success, img = cap.read()
+        if not success:
+            break
 
-#         # Display the frame in the video element
-#         stframe.image(img, channels='BGR', use_column_width=True)
+        # Display the frame in the video element
+        stframe.image(img, channels='BGR', use_column_width=True)
 
-# if __name__ == "__main__":
-#     main()
+if __name__ == "__main__":
+    main()
 #CAM PERMISSION---------------------------------------
 # import streamlit as st
 # from streamlit_webrtc import webrtc_streamer
@@ -118,51 +118,3 @@
 
 # if __name__ == "__main__":
 #     main()
-# STORAGE --> webrtc video ----------------------------------------
-import streamlit as st
-from streamlit_webrtc import webrtc_streamer, VideoTransformerBase
-import cv2
-import numpy as np
-from PIL import Image
-
-class VideoTransformer(VideoTransformerBase):
-    def __init__(self):
-        self.stop_button = False
-
-    def transform(self, frame):
-        # Check if stop button is clicked
-        if self.stop_button:
-            return None
-        
-        # Convert the frame from BGR to RGB
-        rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        # Convert the frame to PIL Image
-        pil_image = Image.fromarray(rgb_frame)
-        return np.array(pil_image)
-
-def main():
-    st.title("Streamlit Video Player")
-
-    uploaded_file = st.file_uploader("Upload a video", type=["mp4", "avi"])
-
-    if uploaded_file is not None:
-        # Display the video using streamlit-webrtc
-        video_transformer = VideoTransformer()
-        webrtc_ctx = webrtc_streamer(
-            key="example",
-            video_transformer_factory=lambda: video_transformer,
-            async_transform=True,
-            mode="recvonly",
-            rtc_configuration={"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]}
-        )
-
-        if webrtc_ctx.video_transformer:
-            st.write("Streaming video...")
-            # Write the video to the webrtc_ctx
-            webrtc_ctx.video_transformer.transform(cv2.VideoCapture(uploaded_file))
-
-            # Add stop button
-            video_transformer.stop_button = st.button("Stop")
-
-if __name__ == "__main__":
-    main()
