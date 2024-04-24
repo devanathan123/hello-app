@@ -42,8 +42,8 @@ def main():
         # Display the frame in the video element
         stframe.image(img, channels='BGR', use_column_width=True)
 
-    while True:
-        st.title("DONE!!")
+    
+    st.title("DONE!!")
 
 if __name__ == "__main__":
     main()
