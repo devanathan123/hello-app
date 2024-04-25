@@ -1,7 +1,6 @@
 opencv-python-headless
 streamlit
 ultralytics
-cv2
 math
 numpy
 cvzone
