@@ -105,7 +105,7 @@ from ultralytics import YOLO
 import cvzone
 import math
 def main():
-    model = YOLO("../YOLO-Weights/seg3n_25.pt")
+    model = YOLO("https://github.com/devanathan123/hello-app/blob/main/YOLO-Weights/seg3n_25.pt")
     classNames = ['Cinthol_Soap', 'Hamam_Soap', 'Him_Face_Wash', 'Maa_Juice', 'Mango', 'Mysore_Sandal_Soap',
                   'Patanjali_Dant_Kanti', 'Tide_Bar_Soap', 'ujala_liquid']
     st.title("Streamlit Video Player")
