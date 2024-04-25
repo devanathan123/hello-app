@@ -1,6 +1,6 @@
 opencv-python-headless
 streamlit-webrtc
-ultralytics<=8.0
+ultralytics
 math
 numpy
 cvzone
