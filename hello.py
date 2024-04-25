@@ -48,7 +48,7 @@ def main():
     if st.button("Verify"):
         user = authenticate_user(email, password)
         if user:
-            st.write("Authentication successful. User ID",user)
+            st.write("Authentication successful. User ID",{user.id})
         else:
             st.write("Authentication Failed")
             
