@@ -104,8 +104,26 @@ import numpy as np
 from ultralytics import YOLO
 import cvzone
 import math
+from pathlib import Path
+
+# Get the absolute path of the current file
+FILE = Path(__file__).resolve()
+# Get the parent directory of the current file
+ROOT = FILE.parent
+# Add the root path to the sys.path list if it is not already there
+if ROOT not in sys.path:
+    sys.path.append(str(ROOT))
+# Get the relative path of the root directory with respect to the current working directory
+ROOT = ROOT.relative_to(Path.cwd())
+
+
 def main():
-    model = YOLO("https://github.com/devanathan123/hello-app/blob/main/YOLO-Weights/seg3n_25.pt")
+    
+    # ML Model config
+    MODEL_DIR = ROOT / 'YOLO-Weights'
+    DETECTION_MODEL = MODEL_DIR / 'seg3n_25.pt'
+    model = YOLO(DETECTION_MODEL)
+
     classNames = ['Cinthol_Soap', 'Hamam_Soap', 'Him_Face_Wash', 'Maa_Juice', 'Mango', 'Mysore_Sandal_Soap',
                   'Patanjali_Dant_Kanti', 'Tide_Bar_Soap', 'ujala_liquid']
     st.title("Streamlit Video Player")
