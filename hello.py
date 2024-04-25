@@ -22,13 +22,13 @@ def authenticate_user(email, password):
     try:
         # Sign in the user with email and password
         user = auth.get_user_by_email(email)
-        auth.get_user(user.uid, password=password)
+        firebase_admin.auth.verify_password(user, password)
         return user
     except Exception as e:
         # Authentication failed
         st.write("Authentication failed:", e)
         return None
-
+        
 def main():
     st.title("Hi App!!")
     st.write("Hi there! Welcome to my Streamlit web app.")
