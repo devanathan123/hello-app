@@ -66,10 +66,48 @@
 # if __name__ == "__main__":
 #     main()
 #Storage file --CV2 ----------------------------------------------
+# import streamlit as st
+# import os
+# import cv2
+# def main():
+#     st.title("Streamlit Video Player")
+
+#     uploaded_file = st.file_uploader("Upload a video", type=["mp4", "avi"])
+
+#     if uploaded_file is not None:
+#         # Save the uploaded file to a temporary location
+#         with open("temp_video.mp4", "wb") as temp_file:
+#             temp_file.write(uploaded_file.read())
+
+#         # Display the video frame by frame
+#         stop_button = st.button("Stop")
+#         stframe = st.empty()
+#         cap = cv2.VideoCapture(temp_file.name)
+
+#         while cap.isOpened() and not stop_button:
+#             success, img= cap.read()
+#             if not success:
+#                 break
+
+#             stframe.image(img, channels='BGR', use_column_width=True)
+
+
+#         st.title("DONE !!")
+
+# if __name__ == "__main__":
+#     main()
+#NEW ML MODEL ---------------------------------------------------
 import streamlit as st
 import os
 import cv2
+import numpy as np
+from ultralytics import YOLO
+import cvzone
+import math
 def main():
+    model = YOLO("../YOLO-Weights/seg3n_25.pt")
+    classNames = ['Cinthol_Soap', 'Hamam_Soap', 'Him_Face_Wash', 'Maa_Juice', 'Mango', 'Mysore_Sandal_Soap',
+                  'Patanjali_Dant_Kanti', 'Tide_Bar_Soap', 'ujala_liquid']
     st.title("Streamlit Video Player")
 
     uploaded_file = st.file_uploader("Upload a video", type=["mp4", "avi"])
@@ -86,36 +124,46 @@ def main():
 
         while cap.isOpened() and not stop_button:
             success, img= cap.read()
-            if not success:
-                break
+            results = model(img, stream=True)
+            detections = np.empty((0,5))
+            allArray = []
+            currentClass = ""
 
-            stframe.image(img, channels='BGR', use_column_width=True)
+            if success:
+
+                for r in results:
+                    boxes = r.boxes
+
+                    for box in boxes:
+                        # Bounding Box
+                        x1, y1, x2, y2 = box.xyxy[0]
+                        x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)
+
+                        w, h = x2 - x1, y2 - y1
+                        cx, cy = x1 + w // 2, y1 + h // 2
+
+                        # cv2.rectangle(img_s, (x1, y1), (x2, y2), (0, 0, 255), 2)
+                        # Confidence
+                        conf = math.ceil((box.conf[0] * 100)) / 100
+                        # Class Name
+                        cls = int(box.cls[0])
+
+                        currentClass = classNames[cls]
+
+                        if currentClass != "person" and conf > 0.3 and 650 > cy:
+
+                            cvzone.putTextRect(img, f'{currentClass} {conf}',
+                                               (max(0, x1), max(35, y1)),
+                                               scale=3, thickness=3)  # Class Name
+                            cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), 2)
+
+                stframe.image(img, channels='BGR', use_column_width=True)
+
+            else:
+                break
 
 
         st.title("DONE !!")
 
 if __name__ == "__main__":
     main()
-
-# STORAGE --> webrtc ---------------------------------------
-# import streamlit as st
-# import os
-
-# def main():
-#     st.title("Streamlit Video Player")
-
-#     uploaded_file = st.file_uploader("Upload a video", type=["mp4", "avi"])
-
-#     if uploaded_file is not None:
-#         # Save the uploaded file to a temporary location
-#         with open("temp_video.mp4", "wb") as f:
-#             f.write(uploaded_file.read())
-
-#         # Display the video using st.video
-#         st.video("temp_video.mp4")
-
-#         # Remove the temporary file after displaying the video
-#         os.remove("temp_video.mp4")
-
-# if __name__ == "__main__":
-#     main()
