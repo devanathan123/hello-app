@@ -66,47 +66,37 @@ if __name__ == "__main__":
 # if __name__ == "__main__":
 #     main()
 #Storage file --CV2 ----------------------------------------------
-# import streamlit as st
-# import cv2
-# from PIL import Image
-# import tempfile
-# import os
+import streamlit as st
+import os
+import cv2
+def main():
+    st.title("Streamlit Video Player")
 
-# def main():
-#     st.title("Streamlit Video Player")
+    uploaded_file = st.file_uploader("Upload a video", type=["mp4", "avi"])
 
-#     uploaded_file = st.file_uploader("Upload a video", type=["mp4", "avi"])
+    if uploaded_file is not None:
+        # Save the uploaded file to a temporary location
+        with open("temp_video.mp4", "wb") as temp_file:
+            temp_file.write(uploaded_file.read())
 
-#     if uploaded_file is not None:
-#         # Save the uploaded file to a temporary location
-#         temp_file = tempfile.NamedTemporaryFile(delete=False)
-#         temp_file.write(uploaded_file.read())
+        # Display the video frame by frame
+        stop_button = st.button("Stop")
+        stframe = st.empty()
+        cap = cv2.VideoCapture(temp_file.name)
 
-#         # Display the video frame by frame
-#         stop_button = st.button("Stop")
-#         stframe = st.empty()
-#         cap = cv2.VideoCapture(temp_file.name)
+        while cap.isOpened() and not stop_button:
+            success, img= cap.read()
+            if not success:
+                break
 
-#         while cap.isOpened() and not stop_button:
-#             ret, frame = cap.read()
-#             if not ret:
-#                 break
+            stframe.image(img, channels='BGR', use_column_width=True)
 
-#             # Convert the frame from BGR to RGB
-#             rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
-#             # Display the frame
-#             #st.image(Image.fromarray(rgb_frame))
-#             stframe.image(Image.fromarray(rgb_frame))
+        st.title("DONE !!")
 
-#         # Close the video capture object
-#         cap.release()
+if __name__ == "__main__":
+    main()
 
-#         # Remove the temporary file
-#         os.unlink(temp_file.name)
-
-# if __name__ == "__main__":
-#     main()
 # STORAGE --> webrtc ---------------------------------------
 # import streamlit as st
 # import os
