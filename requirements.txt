@@ -1,6 +1,6 @@
 opencv-python-headless
 streamlit
 ultralytics
-math
-numpy
-cvzone
+#math
+#numpy
+#cvzone
