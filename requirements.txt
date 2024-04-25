@@ -1,5 +1,2 @@
 opencv-python-headless
 streamlit-webrtc
-tempfile
-PIL
-os
