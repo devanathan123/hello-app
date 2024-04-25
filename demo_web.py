@@ -30,9 +30,24 @@
 import firebase_admin
 from firebase_admin import credentials,firestore,auth
 from google.cloud.firestore_v1.base_query import FieldFilter,Or
+from pathlib import Path
+import sys
+
+# Get the absolute path of the current file
+FILE = Path(__file__).resolve()
+# Get the parent directory of the current file
+ROOT = FILE.parent
+# Add the root path to the sys.path list if it is not already there
+if ROOT not in sys.path:
+    sys.path.append(str(ROOT))
+# Get the relative path of the root directory with respect to the current working directory
+ROOT = ROOT.relative_to(Path.cwd())
+
+JSON_DIR = ROOT / 'json_key'
+MODEL_KEY = JSON_DIR / 'private_key.json'
 
 # Initialize Firebase Admin SDK
-cred = credentials.Certificate(r"C:\Users\HP\PycharmProjects\stream\josn_key\private_key.json")
+cred = credentials.Certificate(MODEL_KEY)
 firebase_admin.initialize_app(cred)
 
 def authenticate_user(email, password):
