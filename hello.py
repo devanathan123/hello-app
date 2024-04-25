@@ -18,6 +18,12 @@ ROOT = ROOT.relative_to(Path.cwd())
 JSON_DIR = ROOT / 'josn_key'
 MODEL_KEY = JSON_DIR / 'private_key.json'
 
+# Check if Firebase Admin SDK has been initialized
+if not firebase_admin._apps:
+    # Initialize Firebase Admin SDK
+    cred = credentials.Certificate(MODEL_KEY)
+    firebase_admin.initialize_app(cred)
+
 
 def authenticate_user(email, password):
 
@@ -33,9 +39,6 @@ def authenticate_user(email, password):
 
 
 def main():
-    # Initialize Firebase Admin SDK
-    cred = credentials.Certificate(MODEL_KEY)
-    firebase_admin.initialize_app(cred)
 
     st.title("Hi App!!")
     st.write("Hi there! Welcome to my Streamlit web app.")
