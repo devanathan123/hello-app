@@ -24,7 +24,7 @@ def authenticate_user(email, password):
         user = auth.get_user_by_email(email)
         auth.get_user(user.uid, password=password)
         return user
-    except auth.AuthError as e:
+    except Exception as e:
         # Authentication failed
         st.write("Authentication failed:", e)
         return None
