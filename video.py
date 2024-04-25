@@ -105,6 +105,7 @@ from ultralytics import YOLO
 import cvzone
 import math
 from pathlib import Path
+import sys
 
 # Get the absolute path of the current file
 FILE = Path(__file__).resolve()
