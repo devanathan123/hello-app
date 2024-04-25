@@ -35,7 +35,7 @@ def authenticate_user(email, password):
 
 
 def main():
-    st.title("Hi App")
+    st.title("Hi App!!")
     st.write("Hi there! Welcome to my Streamlit web app.")
     email = st.text_input("Enter e-mail:")
     password = st.text_input("Enter password:")
