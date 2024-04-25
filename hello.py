@@ -18,11 +18,11 @@ if not firebase_admin._apps:
     cred = credentials.Certificate(MODEL_KEY)
     firebase_admin.initialize_app(cred)
 
-def authenticate_user(email, password):
+def authenticate_user(email, pwd):
     try:
         # Sign in the user with email and password
         user = auth.get_user_by_email(email)
-        auth.get_user(user.uid, password=password)
+        auth.get_user(user.uid, password=pwd)
         return user
     except Exception as e:
         # Authentication failed
