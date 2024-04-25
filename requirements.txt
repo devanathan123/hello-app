@@ -1,7 +1,6 @@
 opencv-python-headless
-streamlit
-
-#ultralytics
+streamlit-webrtc
+ultralytics
 #math
 #numpy
 #cvzone
