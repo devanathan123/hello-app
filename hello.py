@@ -20,9 +20,6 @@ MODEL_KEY = JSON_DIR / 'private_key.json'
 
 
 def authenticate_user(email, password):
-    # Initialize Firebase Admin SDK
-    cred = credentials.Certificate(MODEL_KEY)
-    firebase_admin.initialize_app(cred)
 
     try:
         # Sign in the user with email and password
@@ -36,6 +33,9 @@ def authenticate_user(email, password):
 
 
 def main():
+    # Initialize Firebase Admin SDK
+    cred = credentials.Certificate(MODEL_KEY)
+    firebase_admin.initialize_app(cred)
 
     st.title("Hi App!!")
     st.write("Hi there! Welcome to my Streamlit web app.")
