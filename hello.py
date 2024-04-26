@@ -10,7 +10,7 @@ ROOT = FILE.parent
 # Get the relative path of the root directory with respect to the current working directory
 ROOT = ROOT.relative_to(Path.cwd())
 
-JSON_DIR = ROOT / 'json_key'
+JSON_DIR = ROOT / 'josn_key'
 MODEL_KEY = JSON_DIR / 'private_key.json'
 
 # Initialize Firebase Admin SDK if not already initialized
