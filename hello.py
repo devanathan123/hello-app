@@ -49,7 +49,28 @@ def main():
         email = st.text_input("Enter e-mail:")
         password = st.text_input("Enter password:", type="password")
         if st.button("Verify"):
-            Login(email,password)
+            try:
+                user = auth.get_user_by_email(email)
+                #firebase_admin.auth.verify_password(user, password)
+                st.write("Authentication successful. User ID:", user.uid)
+            except:
+                st.error("FAILED")
+                
+    if st.button("Signup"):
+        email = st.text_input("Enter e-mail:")
+        password = st.text_input("Enter password:", type="password")
+        confirm = st.text_input("Confirm password:",type="password")
+        if st.button("Create"):
+            if password == confirm:
+            try:
+                # Create a new user with email and password
+                user = auth.create_user(email=email, password=password)
+                st.success("Sign up successful. User ID: {}".format(user.uid))
+            except firebase_exceptions.FirebaseError as e:
+                st.error("Sign up failed: {}".format(e))
+        else:
+            st.error("Passwords do not match. Please retype the passwords.")
+
             
 if __name__ == "__main__":
     main()
