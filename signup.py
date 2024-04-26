@@ -50,6 +50,7 @@ def signup():
                 # Create a new user with email and password
                 user = auth.create_user(email=email, password=password)
                 st.success("Sign up successful. User ID: {}".format(user.uid))
+                st.markdown("Welcome to e-shoppping [JOIN US](https://hello-app-video.streamlit.app/)")
             except firebase_exceptions.FirebaseError as e:
                 st.error("Sign up failed: {}".format(e))
         else:
