@@ -31,124 +31,161 @@ def main():
 
         #--------------model---------------------
           # Get the absolute path of the current file
-        FILE = Path(__file__).resolve()
-        # Get the parent directory of the current file
-        ROOT = FILE.parent
-        # Add the root path to the sys.path list if it is not already there
-        if ROOT not in sys.path:
-            sys.path.append(str(ROOT))
-        # Get the relative path of the root directory with respect to the current working directory
-        ROOT = ROOT.relative_to(Path.cwd())
+        # FILE = Path(__file__).resolve()
+        # # Get the parent directory of the current file
+        # ROOT = FILE.parent
+        # # Add the root path to the sys.path list if it is not already there
+        # if ROOT not in sys.path:
+        #     sys.path.append(str(ROOT))
+        # # Get the relative path of the root directory with respect to the current working directory
+        # ROOT = ROOT.relative_to(Path.cwd())
 
-        MODEL_DIR = ROOT / 'YOLO-Weights'
-        DETECTION_MODEL = MODEL_DIR / 'seg3n_25.pt'
-        model = YOLO(DETECTION_MODEL)
-        classNames = ['Cinthol_Soap', 'Hamam_Soap', 'Him_Face_Wash', 'Maa_Juice', 'Mango', 'Mysore_Sandal_Soap','Patanjali_Dant_Kanti', 'Tide_Bar_Soap', 'ujala_liquid']
-        st.title("Streamlit Video Player")
+        # MODEL_DIR = ROOT / 'YOLO-Weights'
+        # DETECTION_MODEL = MODEL_DIR / 'seg3n_25.pt'
+        # model = YOLO(DETECTION_MODEL)
+        # classNames = ['Cinthol_Soap', 'Hamam_Soap', 'Him_Face_Wash', 'Maa_Juice', 'Mango', 'Mysore_Sandal_Soap','Patanjali_Dant_Kanti', 'Tide_Bar_Soap', 'ujala_liquid']
+        # st.title("Streamlit Video Player")
         #-----------------------------------------
       
-        st.sidebar.markdown('---')
-        use_webcam = st.sidebar.checkbox('Use Webcam')
-        st.sidebar.markdown('---')
+        #st.sidebar.markdown('---')
+        #use_webcam = st.sidebar.checkbox('Use Webcam')
+        #st.sidebar.markdown('---')
 
         uploaded_file_top = st.file_uploader("Upload a TOP-view video", type=["mp4", "avi"])
         uploaded_file_side = st.file_uploader("Upload a SIDE-view video", type=["mp4", "avi"])
 
         if uploaded_file_top and uploaded_file_side is not None:
           # Save the uploaded file to a temporary location
-          with open("temp_video1.mp4", "wb") as temp_file_top:
-            temp_file_top.write(uploaded_file_top.read())
+            with open("temp_video1.mp4", "wb") as temp_file_top:
+                temp_file_top.write(uploaded_file_top.read())
 
-          with open("temp_video2.mp4", "wb") as temp_file_side:
-            temp_file_side.write(uploaded_file_side.read())
+            with open("temp_video2.mp4", "wb") as temp_file_side:
+                temp_file_side.write(uploaded_file_side.read())
             
+
+            stframe_t = st.empty()
+            stframe_s = st.empty()
+
+            #------------- DISPLAY DETAILS ------------------------------
+
+            st.markdown("<hr/>", unsafe_allow_html = True)
+            kpi1, kpi2, kpi3, kpi4 = st.columns(4)
+            with kpi1:
+                st.markdown("**Current ToTal**")
+                kpi1_text = st.markdown("<h1 style='color:white;'>0</h1>",unsafe_allow_html=True)
+                #kpi1_text.write(f"<h1 style='text-align:center; color:red;'>0</h1>")
+            with kpi2:
+                st.markdown("**Amount**")
+                #kpi2_text = st.markdown("0")
+                kpi2_text = st.markdown("<h1 style='color:red;'>0</h1>",unsafe_allow_html=True)
+            with kpi3:
+                st.markdown("**Stock**")
+                #kpi3_text = st.markdown("0")
+                kpi3_text = st.markdown("<h1 style='color:red;'>0</h1>",unsafe_allow_html=True)
+            with kpi4:
+                st.markdown("**Product**")
+                # kpi3_text = st.markdown("0")
+                kpi4_text = st.markdown("<h1 style='color:red;'>0</h1>", unsafe_allow_html=True)
+    
+    
+            st.markdown("<hr/>", unsafe_allow_html = True)
+            st.markdown("<hr/>", unsafe_allow_html = True)
+            kpi5,kpi6=st.columns(2)
+    
+            with kpi5:
+                #st.markdown("**reciept**")
+                kpi5_text = st.markdown("<h1 style='color:white;>0</h1>", unsafe_allow_html=True)
+    
+            st.markdown("<hr/>", unsafe_allow_html=True)
+    
+            load_product_counter(tffile.name_S,tffile.name_T, kpi1_text,kpi2_text,  kpi3_text, kpi4_text,kpi5_text,stframe_s,stframe_t)
+
           # Display the video frame by frame
-          stop_button = st.button("Stop")
-          stframe_t = st.empty()
-          stframe_s = st.empty()  
-          cap_t = cv2.VideoCapture(temp_file_top.name)
-          cap_s = cv2.VideoCapture(temp_file_side.name)
+          #stop_button = st.button("Stop")
   
-          while cap_t.isOpened() and cap_s.isOpened() and not stop_button:
-              success_t, img_t= cap_t.read()
-              success_s, img_s= cap_s.read()
-              results_t = model(img_t, stream=True)
-              results_s = model(img_s, stream=True)
-              detections_t = np.empty((0,5))
-              detections_s = np.empty((0,5))
-              allArray_t = []
-              allArray_s = []
-              currentClass_s = ""
-              currentClass_t = ""
+          #cap_t = cv2.VideoCapture(temp_file_top.name)
+          #cap_s = cv2.VideoCapture(temp_file_side.name)
+  
+          # while cap_t.isOpened() and cap_s.isOpened() and not stop_button:
+          #     success_t, img_t= cap_t.read()
+          #     success_s, img_s= cap_s.read()
+          #     results_t = model(img_t, stream=True)
+          #     results_s = model(img_s, stream=True)
+          #     detections_t = np.empty((0,5))
+          #     detections_s = np.empty((0,5))
+          #     allArray_t = []
+          #     allArray_s = []
+          #     currentClass_s = ""
+          #     currentClass_t = ""
             
-              if success_t:
+          #     if success_t:
   
-                  for r in results_t:
-                      boxes = r.boxes
+          #         for r in results_t:
+          #             boxes = r.boxes
   
-                      for box in boxes:
-                          # Bounding Box
-                          x1, y1, x2, y2 = box.xyxy[0]
-                          x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)
+          #             for box in boxes:
+          #                 # Bounding Box
+          #                 x1, y1, x2, y2 = box.xyxy[0]
+          #                 x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)
   
-                          w, h = x2 - x1, y2 - y1
-                          cx, cy = x1 + w // 2, y1 + h // 2
+          #                 w, h = x2 - x1, y2 - y1
+          #                 cx, cy = x1 + w // 2, y1 + h // 2
   
-                          # cv2.rectangle(img_s, (x1, y1), (x2, y2), (0, 0, 255), 2)
-                          # Confidence
-                          conf = math.ceil((box.conf[0] * 100)) / 100
-                          # Class Name
-                          cls = int(box.cls[0])
+          #                 # cv2.rectangle(img_s, (x1, y1), (x2, y2), (0, 0, 255), 2)
+          #                 # Confidence
+          #                 conf = math.ceil((box.conf[0] * 100)) / 100
+          #                 # Class Name
+          #                 cls = int(box.cls[0])
   
-                          currentClass_t = classNames[cls]
+          #                 currentClass_t = classNames[cls]
   
-                          if currentClass_t != "person" and conf > 0.3 and 650 > cy:
+          #                 if currentClass_t != "person" and conf > 0.3 and 650 > cy:
   
-                              cvzone.putTextRect(img_t, f'{currentClass_t} {conf}',
-                                                 (max(0, x1), max(35, y1)),
-                                                 scale=3, thickness=3)  # Class Name
-                              cv2.rectangle(img_t, (x1, y1), (x2, y2), (0, 255, 0), 2)
+          #                     cvzone.putTextRect(img_t, f'{currentClass_t} {conf}',
+          #                                        (max(0, x1), max(35, y1)),
+          #                                        scale=3, thickness=3)  # Class Name
+          #                     cv2.rectangle(img_t, (x1, y1), (x2, y2), (0, 255, 0), 2)
   
-                  stframe_t.image(img_t, channels='BGR', use_column_width=True)
+          #         stframe_t.image(img_t, channels='BGR', use_column_width=True)
   
-              else:
-                  break
+          #     else:
+          #         break
 
-              if success_s:
+          #     if success_s:
   
-                  for r in results_s:
-                      boxes = r.boxes
+          #         for r in results_s:
+          #             boxes = r.boxes
   
-                      for box in boxes:
-                          # Bounding Box
-                          x1, y1, x2, y2 = box.xyxy[0]
-                          x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)
+          #             for box in boxes:
+          #                 # Bounding Box
+          #                 x1, y1, x2, y2 = box.xyxy[0]
+          #                 x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)
   
-                          w, h = x2 - x1, y2 - y1
-                          cx, cy = x1 + w // 2, y1 + h // 2
+          #                 w, h = x2 - x1, y2 - y1
+          #                 cx, cy = x1 + w // 2, y1 + h // 2
   
-                          # cv2.rectangle(img_s, (x1, y1), (x2, y2), (0, 0, 255), 2)
-                          # Confidence
-                          conf = math.ceil((box.conf[0] * 100)) / 100
-                          # Class Name
-                          cls = int(box.cls[0])
+          #                 # cv2.rectangle(img_s, (x1, y1), (x2, y2), (0, 0, 255), 2)
+          #                 # Confidence
+          #                 conf = math.ceil((box.conf[0] * 100)) / 100
+          #                 # Class Name
+          #                 cls = int(box.cls[0])
   
-                          currentClass_s = classNames[cls]
+          #                 currentClass_s = classNames[cls]
   
-                          if currentClass_t != "person" and conf > 0.3 and 650 > cy:
+          #                 if currentClass_t != "person" and conf > 0.3 and 650 > cy:
   
-                              cvzone.putTextRect(img_s, f'{currentClass_s} {conf}',
-                                                 (max(0, x1), max(35, y1)),
-                                                 scale=3, thickness=3)  # Class Name
-                              cv2.rectangle(img_s, (x1, y1), (x2, y2), (0, 255, 0), 2)
+          #                     cvzone.putTextRect(img_s, f'{currentClass_s} {conf}',
+          #                                        (max(0, x1), max(35, y1)),
+          #                                        scale=3, thickness=3)  # Class Name
+          #                     cv2.rectangle(img_s, (x1, y1), (x2, y2), (0, 255, 0), 2)
   
-                  stframe_s.image(img_s, channels='BGR', use_column_width=True)
+          #         stframe_s.image(img_s, channels='BGR', use_column_width=True)
   
-              else:
-                  break
+          #     else:
+          #         break
 
   
-          st.title("DONE !!")
+          # st.title("DONE !!")
 
 if __name__ == "__main__":
     main()
