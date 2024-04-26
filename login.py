@@ -3,6 +3,7 @@ import firebase_admin
 from firebase_admin import credentials, auth
 from firebase_admin import exceptions as firebase_exceptions
 import requests
+import webbrowser
 
 # Load JSON key file from GitHub
 def load_json_key():
@@ -38,8 +39,8 @@ def login():
             user = auth.get_user_by_email(email)
             #firebase_admin.auth.verify_password(password, user.password_hash)
             st.success("Authentication successful. User ID: {}".format(user.uid))
-            if st.button("NEXT"):
-                st.redirect("https://hello-app-video.streamlit.app/")
+            if st.button("WELCOME TO E-SHOPPING"):
+                webbrowser.open("https://hello-app-video.streamlit.app/")
             #st.markdown("[NEXT](https://hello-app-video.streamlit.app/)")
         except firebase_exceptions.FirebaseError as e:
             st.error("Authentication failed: {}".format(e))
