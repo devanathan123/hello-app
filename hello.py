@@ -48,18 +48,29 @@ import pyrebase
 import streamlit as st
 import firebase_admin
 
-FILE = Path(__file__).resolve()
-ROOT = FILE.parent
-ROOT = ROOT.relative_to(Path.cwd())
+# FILE = Path(__file__).resolve()
+# ROOT = FILE.parent
+# ROOT = ROOT.relative_to(Path.cwd())
 
-JSON_DIR = ROOT / 'json_key'
-MODEL_KEY = JSON_DIR / 'private_key.json'
+# JSON_DIR = ROOT / 'json_key'
+# MODEL_KEY = JSON_DIR / 'private_key.json'
+
+firebaseConfig = {
+  'apiKey': "AIzaSyD4BW3b9_7ZwO2pJ6Xp_imLc1YIkk-8y-U",
+  'authDomain': "fir-ec695.firebaseapp.com",
+  'projectId': "fir-ec695",
+  'storageBucket': "fir-ec695.appspot.com",
+  'messagingSenderId': "651558941637",
+  'appId': "1:651558941637:web:be19b9b60cc38aadd111ac",
+  'measurementId': "G-TH3ZJPWKM1"
+}
+
 
 if not firebase_admin._apps:
     #cred = credentials.Certificate(MODEL_KEY)
     #firebase_admin.initialize_app(cred)
-    cred = credentials.Certificate(MODEL_KEY)
-    firebase=pyrebase.initialize_app(cred)
+    
+    firebase=pyrebase.initialize_app(firebaseConfig)
     auth=firebase.auth()
 
 def signup():
