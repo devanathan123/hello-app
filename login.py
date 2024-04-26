@@ -30,7 +30,7 @@ def main():
 
     # Display login page by default
     login()
-    st.markdown("New user? [st.button('Sign up here')](https://hello-app-sign-up.streamlit.app/)")
+    st.markdown("New user? ['Sign up here'](https://hello-app-sign-up.streamlit.app/)")
 
 # Login page
 def login():
