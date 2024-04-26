@@ -43,7 +43,7 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
     DETECTION_MODEL = MODEL_DIR / 'seg3n_25.pt'
     model = YOLO(DETECTION_MODEL)
     classNames = ['Cinthol_Soap', 'Hamam_Soap', 'Him_Face_Wash', 'Maa_Juice', 'Mango', 'Mysore_Sandal_Soap','Patanjali_Dant_Kanti', 'Tide_Bar_Soap', 'ujala_liquid']
-    st.title("Streamlit Video Player")
+    #st.title("Streamlit Video Player")
     
     #Display the video frame by frame
     stop_button = st.button("Stop")
