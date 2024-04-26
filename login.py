@@ -23,12 +23,6 @@ if not firebase_admin._apps:
     cred = credentials.Certificate(key_data)
     firebase_admin.initialize_app(cred)
 
-def example():
-
-    keyboard_to_url(key="S", url="https://www.github.com/streamlit/streamlit")
-    load_key_css()
-    st.write(f"""Now hit {key("S", False)} on your keyboard...!""",unsafe_allow_html=True,)
-
 # Login page
 def login():
     st.subheader("Login")
@@ -45,14 +39,10 @@ def login():
             #firebase_admin.auth.verify_password(password, user.password_hash)
             st.success("Authentication successful. User ID: {}".format(user.uid))
             example()
-            #st.markdown("[Welcome to e-shopping](https://hello-app-video.streamlit.app/)")
+            bt = st.button("NEXT")
+            st.markdown("[bt](https://hello-app-video.streamlit.app/)")
         except firebase_exceptions.FirebaseError as e:
             st.error("Authentication failed: {}".format(e))
-
-
-def redirect(url):
-    redirect_script = f"window.location.href = '{url}';"
-    components.html(f'<script>{redirect_script}</script>')
 
 # Define Streamlit app layout
 def main():
@@ -61,7 +51,7 @@ def main():
     # Display login page by default
     login()
     
-    st.markdown("New user? ['Sign up here'](https://hello-app-sign-up.streamlit.app/)")
+    #st.markdown("New user? ['Sign up here'](https://hello-app-sign-up.streamlit.app/)")
 
 if __name__ == "__main__":
     main()
