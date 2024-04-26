@@ -58,6 +58,7 @@ MODEL_KEY = JSON_DIR / 'private_key.json'
 if not firebase_admin._apps:
     #cred = credentials.Certificate(MODEL_KEY)
     #firebase_admin.initialize_app(cred)
+    cred = credentials.Certificate(MODEL_KEY)
     firebase=pyrebase.initialize_app(firebaseConfig)
     auth=firebase.auth()
 
