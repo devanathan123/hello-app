@@ -18,19 +18,19 @@ if not firebase_admin._apps:
     cred = credentials.Certificate(MODEL_KEY)
     firebase_admin.initialize_app(cred)
 
-def Login(email,password):
-
-    # Sign in the user with email and password
-    user = auth.get_user_by_email(email)
-    if user:        
-        #firebase_admin.auth.verify_password(user, password)
-        st.write("Authentication successful. User ID:", user.uid)
-    else:
-        st.write("FAILED")
+def Login():
+    email = st.text_input("Enter e-mail:")
+    password = st.text_input("Enter password:", type="password")
+    if st.button("Verify"):
+        try:
+            user = auth.get_user_by_email(email)
+            #firebase_admin.auth.verify_password(user, password)
+            st.write("Authentication successful. User ID:", user.uid)
+        except:
+            st.error("FAILED")
 
 def Signup(email,password,confirm):
     # Button to trigger sign-up
-    
         if password == confirm:
             try:
                 # Create a new user with email and password
@@ -46,15 +46,7 @@ def main():
     st.title("Hi App!!")
     st.write("Hi there! Welcome to my Streamlit web app.")
     if st.button("Login"):
-        email = st.text_input("Enter e-mail:")
-        password = st.text_input("Enter password:", type="password")
-        if st.button("Verify"):
-            try:
-                user = auth.get_user_by_email(email)
-                #firebase_admin.auth.verify_password(user, password)
-                st.write("Authentication successful. User ID:", user.uid)
-            except:
-                st.error("FAILED")
+        Login()
                 
     if st.button("Signup"):
         email = st.text_input("Enter e-mail:")
