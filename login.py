@@ -49,6 +49,7 @@ def login():
             user = auth.get_user_by_email(email)
             #firebase_admin.auth.verify_password(password, user.password_hash)
             st.success("Authentication successful. User ID: {}".format(user.uid))
+            st.button("[Welcome to e-shopping](https://hello-app-sign-up.streamlit.app/)")
         except firebase_exceptions.FirebaseError as e:
             st.error("Authentication failed: {}".format(e))
 
