@@ -47,7 +47,27 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
     
     #Display the video frame by frame
     stop_button = st.button("Stop")
-    #--------------------------------------------------------------------------
+    
+    #------ BOUNDARY LINES --------------------------------------------------------------
+    left_limits1 = [250 , 50 ,250, 1000 ]
+    left_limits2 = [350 , 50, 350, 1000 ]
+
+    right_limits1 = [1650 ,50, 1650 , 1000 ]
+    right_limits2 = [1550 ,50, 1550 , 1000 ]
+
+    top_limits1 = [250 , 50 , 1650 , 50 ]
+    top_limits2 = [250 , 100 , 1550 , 100]
+
+    bottom_limits1 = [250 ,1000 , 1650 ,1000]
+    bottom_limits2 = [350 , 950 , 1550 , 950]
+
+    #-------SIDE Window-----------------------------------------------------------------------------------
+    top_limits1_s = [0 , 450 , 1920 ,450 ]
+    top_limits2_s = [0 , 500 , 1920 ,500 ]
+    top_limits3_s = [0 , 650 , 1920 ,650 ]
+
+
+    
     while cap_t.isOpened() and cap_s.isOpened() and not stop_button:
               success_t, img_t= cap_t.read()
               success_s, img_s= cap_s.read()
@@ -87,6 +107,18 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
                                                  (max(0, x1), max(35, y1)),
                                                  scale=3, thickness=3)  # Class Name
                               cv2.rectangle(img_t, (x1, y1), (x2, y2), (0, 255, 0), 2)
+
+                  cv2.line(img_t, (left_limits1[0], left_limits1[1]), (left_limits1[2], left_limits1[3]), (0, 0, 255), 1)
+                  cv2.line(img_t, (left_limits2[0], left_limits2[1]), (left_limits2[2], left_limits2[3]), (255, 0, 0), 1)
+
+                  cv2.line(img_t, (right_limits1[0], right_limits1[1]), (right_limits1[2], right_limits1[3]), (0, 0, 255), 1)
+                  cv2.line(img_t, (right_limits2[0], right_limits2[1]), (right_limits2[2], right_limits2[3]), (255, 0, 0), 1)
+
+                  cv2.line(img_t, (top_limits1[0], top_limits1[1]), (top_limits1[2], top_limits1[3]), (0, 0, 255), 1)
+                  cv2.line(img_t, (top_limits2[0], top_limits2[1]), (top_limits2[2], top_limits2[3]), (255, 0, 0), 1)
+
+                  cv2.line(img_t, (bottom_limits1[0], bottom_limits1[1]), (bottom_limits1[2], bottom_limits1[3]), (0, 0, 255), 1)
+                  cv2.line(img_t, (bottom_limits2[0], bottom_limits2[1]), (bottom_limits2[2], bottom_limits2[3]), (255, 0, 0), 1)
   
                   stframe_t.image(img_t, channels='BGR', use_column_width=True)
   
@@ -120,7 +152,12 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
                                                  (max(0, x1), max(35, y1)),
                                                  scale=3, thickness=3)  # Class Name
                               cv2.rectangle(img_s, (x1, y1), (x2, y2), (0, 255, 0), 2)
-  
+
+                  
+                  cv2.line(img_s, (top_limits1_s[0], top_limits1_s[1]), (top_limits1_s[2], top_limits1_s[3]), (0, 0, 255), 1)
+                  cv2.line(img_s, (top_limits2_s[0], top_limits2_s[1]), (top_limits2_s[2], top_limits2_s[3]), (255, 0, 0), 1)
+                  cv2.line(img_s, (top_limits3_s[0], top_limits3_s[1]), (top_limits3_s[2], top_limits3_s[3]), (255, 0, 0), 1)
+                  
                   stframe_s.image(img_s, channels='BGR', use_column_width=True)
   
               else:
