@@ -32,6 +32,8 @@ if not firebase_admin._apps:
 #     """
 #     st.markdown(new_page, unsafe_allow_html=True)
     
+def redirect():
+    st.markdown("[Sign up here](https://hello-app-sign-up.streamlit.app/)")
 
 # Define Streamlit app layout
 def main():
@@ -39,8 +41,9 @@ def main():
 
     # Display login page by default
     login()
-
-    st.markdown(st.button("New user? [Sign up here](https://hello-app-sign-up.streamlit.app/)"))
+    if st.button("new user?"):
+        redirect()
+    #st.markdown("New user? [Sign up here](https://hello-app-sign-up.streamlit.app/)")
 
 # Login page
 def login():
