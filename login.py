@@ -33,6 +33,7 @@ def main():
 
     # Display login page by default
     login()
+    
     if st.button("Go to Hello App Video"):
         redirect("https://hello-app-video.streamlit.app/")
     #st.markdown("New user? ['Sign up here'](https://hello-app-sign-up.streamlit.app/)")
