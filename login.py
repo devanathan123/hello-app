@@ -23,17 +23,6 @@ if not firebase_admin._apps:
     cred = credentials.Certificate(key_data)
     firebase_admin.initialize_app(cred)
 
-# def redirect():
-#     # Provide a link to sign up page
-#     new_page = """
-#     <script>
-#     window.location.href = 'https://hello-app-sign-up.streamlit.app/';  // Change the URL as needed
-#     </script>
-#     """
-#     st.markdown(new_page, unsafe_allow_html=True)
-    
-def redirect():
-    st.markdown("[st.button('Sign up here')](https://hello-app-sign-up.streamlit.app/)")
 
 # Define Streamlit app layout
 def main():
@@ -41,9 +30,7 @@ def main():
 
     # Display login page by default
     login()
-    if st.button("new user?"):
-        redirect()
-    #st.markdown("New user? [Sign up here](https://hello-app-sign-up.streamlit.app/)")
+    st.markdown("New user? [st.button('Sign up here')](https://hello-app-sign-up.streamlit.app/)")
 
 # Login page
 def login():
@@ -60,7 +47,7 @@ def login():
             user = auth.get_user_by_email(email)
             #firebase_admin.auth.verify_password(password, user.password_hash)
             st.success("Authentication successful. User ID: {}".format(user.uid))
-            st.button(st.markdown("[Welcome to e-shopping](https://hello-app-video.streamlit.app/)"))
+            st.markdown("[Welcome to e-shopping](https://hello-app-video.streamlit.app/)"))
         except firebase_exceptions.FirebaseError as e:
             st.error("Authentication failed: {}".format(e))
 
