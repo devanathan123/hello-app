@@ -18,29 +18,46 @@ if not firebase_admin._apps:
     cred = credentials.Certificate(MODEL_KEY)
     firebase_admin.initialize_app(cred)
 
-def authenticate_user(email, password):
-    try:
-        # Sign in the user with email and password
-        user = auth.get_user_by_email(email)
-        firebase_admin.auth.verify_password(user, password)
-        return user
-    except Exception as e:
-        # Authentication failed
-        st.write("Authentication failed:", e)
-        return None
-        
-def main():
-    st.title("Hi App!!")
-    st.write("Hi there! Welcome to my Streamlit web app.")
+def Login():
+    
     email = st.text_input("Enter e-mail:")
     password = st.text_input("Enter password:", type="password")
     if st.button("Verify"):
-        user = authenticate_user(email, password)
-        if user:
+        try:
+            # Sign in the user with email and password
+            user = auth.get_user_by_email(email)
+            #firebase_admin.auth.verify_password(user, password)
             st.write("Authentication successful. User ID:", user.uid)
-        else:
-            st.write("Authentication Failed")
 
+        except Exception as e:
+            # Authentication failed
+            st.write("Authentication failed:", e)
+            
+def Signup():
+    email = st.text_input("Enter e-mail:")
+    password = st.text_input("Enter password:", type="password")
+    confirm = st.text_input("Confirm password:", type="password")
+    # Button to trigger sign-up
+    if st.button("Sign Up"):
+        if password == confirm:
+            try:
+                # Create a new user with email and password
+                user = auth.create_user(email=email, password=password)
+                st.success("Sign up successful. User ID: {}".format(user.uid))
+            except firebase_exceptions.FirebaseError as e:
+                st.error("Sign up failed: {}".format(e))
+        else:
+            st.error("Passwords do not match. Please retype the passwords.")
+
+    
+def main():
+    st.title("Hi App!!")
+    st.write("Hi there! Welcome to my Streamlit web app.")
+    if st.button("Login"):
+        Login()
+    if st.button("Signup"):
+        Signup()
+    
 if __name__ == "__main__":
     main()
 
