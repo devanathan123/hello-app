@@ -23,6 +23,15 @@ if not firebase_admin._apps:
     cred = credentials.Certificate(key_data)
     firebase_admin.initialize_app(cred)
 
+def redirect():
+    # Provide a link to sign up page
+    new_page = """
+    <script>
+    window.location.href = 'https://hello-app-sign-up.streamlit.app/';  // Change the URL as needed
+    </script>
+    """
+    st.markdown(new_page, unsafe_allow_html=True)
+    
 
 # Define Streamlit app layout
 def main():
@@ -30,9 +39,9 @@ def main():
 
     # Display login page by default
     login()
-
-    # Provide a link to sign up page
-    st.markdown("New user? [Sign up here](https://hello-app-sign-up.streamlit.app/)")
+    if st.button("New User?"):
+        redirect()
+    #st.markdown("New user? [Sign up here](https://hello-app-sign-up.streamlit.app/)")
 
 # Login page
 def login():
