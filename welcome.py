@@ -98,7 +98,7 @@ def main():
     
             st.markdown("<hr/>", unsafe_allow_html=True)
     
-            load_product_counter(tffile.name_S,tffile.name_T, kpi1_text,kpi2_text,  kpi3_text, kpi4_text,kpi5_text,stframe_s,stframe_t)
+            load_product_counter(temp_file_side.name,temp_file_top.name, kpi1_text,kpi2_text,  kpi3_text, kpi4_text,kpi5_text,stframe_s,stframe_t)
 
           # Display the video frame by frame
           #stop_button = st.button("Stop")
