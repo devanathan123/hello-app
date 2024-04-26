@@ -52,7 +52,7 @@ def main():
     # Display login page by default
     login()
     
-    #st.markdown("New user? ['Sign up here'](https://hello-app-sign-up.streamlit.app/)")
+    st.markdown("New user? ['Sign up here'](https://hello-app-sign-up.streamlit.app/)")
 
 if __name__ == "__main__":
     main()
