@@ -65,6 +65,7 @@ def main():
           # Display the video frame by frame
           stop_button = st.button("Stop")
           stframe_t = st.empty()
+          stframe_s = st.empty()  
           cap_t = cv2.VideoCapture(temp_file_top.name)
           cap_s = cv2.VideoCapture(temp_file_side.name)
   
@@ -108,7 +109,7 @@ def main():
                                                  scale=3, thickness=3)  # Class Name
                               cv2.rectangle(img_t, (x1, y1), (x2, y2), (0, 255, 0), 2)
   
-                  stframe.image(img_t, channels='BGR', use_column_width=True)
+                  stframe_t.image(img_t, channels='BGR', use_column_width=True)
   
               else:
                   break
@@ -141,7 +142,7 @@ def main():
                                                  scale=3, thickness=3)  # Class Name
                               cv2.rectangle(img_s, (x1, y1), (x2, y2), (0, 255, 0), 2)
   
-                  stframe.image(img_s, channels='BGR', use_column_width=True)
+                  stframe_s.image(img_s, channels='BGR', use_column_width=True)
   
               else:
                   break
