@@ -26,7 +26,7 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
     #frame_width = (image_width / screen_width)
     #frame_height = (image_height / screen_height)
 
-    device: str = "mps" if torch.backends.mps.is_available() else "cpu"
+    #device: str = "mps" if torch.backends.mps.is_available() else "cpu"
 
     #----- MODEL ----------------------------------------------------------
     #Get the absolute path of the current file
