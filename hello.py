@@ -45,19 +45,16 @@ def Signup(email,password,confirm):
 def main():
     st.title("Hi App!!")
     st.write("Hi there! Welcome to my Streamlit web app.")
-    if st.button("Login"):
-        email = st.text_input("Enter e-mail:")
-        password = st.text_input("Enter password:", type="password")
-        if st.button("Verify"):
-            Login(email,password)
-        
-    if st.button("Signup"):
-        email = st.text_input("Enter e-mail:")
-        password = st.text_input("Enter password:", type="password")
-        confirm = st.text_input("Confirm password:", type="password")
-        if st.button("Sign Up"):
-            Signup(email,password,confirm)
-    
+    email = st.text_input("Enter e-mail:")
+    password = st.text_input("Enter password:", type="password")
+    if st.button("Verify"):
+        user = auth.get_user_by_email(email)
+        if user:        
+            #firebase_admin.auth.verify_password(user, password)
+            st.write("Authentication successful. User ID:", user.uid)
+        else:
+            st.write("FAILED")
+            
 if __name__ == "__main__":
     main()
 
