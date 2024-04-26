@@ -33,7 +33,7 @@ if not firebase_admin._apps:
 #     st.markdown(new_page, unsafe_allow_html=True)
     
 def redirect():
-    st.markdown("[st.button(Sign up here)](https://hello-app-sign-up.streamlit.app/)")
+    st.markdown("[st.button('Sign up here')](https://hello-app-sign-up.streamlit.app/)")
 
 # Define Streamlit app layout
 def main():
