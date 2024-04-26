@@ -46,7 +46,7 @@ def login():
 
 def redirect(url):
     redirect_script = f"window.location.href = '{url}';"
-    st.write(f'<script>{redirect_script}</script>', unsafe_allow_html=True)
+    components.html(f'<script>{redirect_script}</script>')
 
 # Define Streamlit app layout
 def main():
