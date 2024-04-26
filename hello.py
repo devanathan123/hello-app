@@ -19,18 +19,15 @@ if not firebase_admin._apps:
     firebase_admin.initialize_app(cred)
 
 def Login(email,password):
-    
-    
-        try:
-            # Sign in the user with email and password
-            user = auth.get_user_by_email(email)
-            #firebase_admin.auth.verify_password(user, password)
-            st.write("Authentication successful. User ID:", user.uid)
 
-        except Exception as e:
-            # Authentication failed
-            st.write("Authentication failed:", e)
-            
+    # Sign in the user with email and password
+    user = auth.get_user_by_email(email)
+    if user:        
+        #firebase_admin.auth.verify_password(user, password)
+        st.write("Authentication successful. User ID:", user.uid)
+    else:
+        st.write("FAILED")
+
 def Signup(email,password,confirm):
     # Button to trigger sign-up
     
