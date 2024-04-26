@@ -149,7 +149,8 @@ def main():
   
           st.title("DONE !!")
 
-          
+if __name__ == "__main__":
+    main()
         
       #------------ OLD -------------------------
         # video_file_buffer = st.sidebar.file_uploader("Upload a Video", type = ["mp4", "avi", "mov", "asf"])
