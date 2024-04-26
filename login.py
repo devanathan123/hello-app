@@ -41,8 +41,8 @@ def login():
             st.success("Authentication successful. User ID: {}".format(user.uid))
             #if st.button("WELCOME TO E-SHOPPING"):
             #    webbrowser.open("https://hello-app-video.streamlit.app/")
-            #st.markdown("Welcome to e-shoppping [JOIN US](https://hello-app-video.streamlit.app/)")
-            st.markdown('<button onclick="window.location.href=\'https://hello-app-video.streamlit.app/\'">Next</button>', unsafe_allow_html=True)
+            st.markdown("Welcome to e-shoppping [JOIN US](https://hello-app-video.streamlit.app/)")
+            #st.markdown('<button onclick="window.location.href=\'https://hello-app-video.streamlit.app/\'">Next</button>', unsafe_allow_html=True)
         except firebase_exceptions.FirebaseError as e:
             st.error("Authentication failed: {}".format(e))
 
