@@ -20,7 +20,7 @@ if not firebase_admin._apps:
 
 def Login(email,password):
     
-    if st.button("Verify"):
+    
         try:
             # Sign in the user with email and password
             user = auth.get_user_by_email(email)
@@ -33,7 +33,7 @@ def Login(email,password):
             
 def Signup(email,password,confirm):
     # Button to trigger sign-up
-    if st.button("Sign Up"):
+    
         if password == confirm:
             try:
                 # Create a new user with email and password
@@ -51,14 +51,15 @@ def main():
     if st.button("Login"):
         email = st.text_input("Enter e-mail:")
         password = st.text_input("Enter password:", type="password")
-        Login(email,password)
+        if st.button("Verify"):
+            Login(email,password)
         
     if st.button("Signup"):
         email = st.text_input("Enter e-mail:")
         password = st.text_input("Enter password:", type="password")
         confirm = st.text_input("Confirm password:", type="password")
-
-        Signup(email,password,confirm)
+        if st.button("Sign Up"):
+            Signup(email,password,confirm)
     
 if __name__ == "__main__":
     main()
