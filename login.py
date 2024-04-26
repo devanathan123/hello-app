@@ -3,7 +3,6 @@ import firebase_admin
 from firebase_admin import credentials, auth
 from firebase_admin import exceptions as firebase_exceptions
 import requests
-from streamlit_extras.keyboard_url import keyboard_to_url
 
 # Load JSON key file from GitHub
 def load_json_key():
