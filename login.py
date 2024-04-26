@@ -38,7 +38,6 @@ def login():
             user = auth.get_user_by_email(email)
             #firebase_admin.auth.verify_password(password, user.password_hash)
             st.success("Authentication successful. User ID: {}".format(user.uid))
-            example()
             bt = st.button("NEXT")
             st.markdown("[bt](https://hello-app-video.streamlit.app/)")
         except firebase_exceptions.FirebaseError as e:
