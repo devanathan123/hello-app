@@ -45,10 +45,11 @@ def Signup(email,password,confirm):
 def main():
     st.title("Hi App!!")
     st.write("Hi there! Welcome to my Streamlit web app.")
-    email = st.text_input("Enter e-mail:")
-    password = st.text_input("Enter password:", type="password")
-    if st.button("Verify"):
-        Login(email,password)
+    if st.button("Login"):
+        email = st.text_input("Enter e-mail:")
+        password = st.text_input("Enter password:", type="password")
+        if st.button("Verify"):
+            Login(email,password)
             
 if __name__ == "__main__":
     main()
