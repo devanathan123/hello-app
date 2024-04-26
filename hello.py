@@ -59,7 +59,7 @@ if not firebase_admin._apps:
     #cred = credentials.Certificate(MODEL_KEY)
     #firebase_admin.initialize_app(cred)
     cred = credentials.Certificate(MODEL_KEY)
-    firebase=pyrebase.initialize_app(firebaseConfig)
+    firebase=pyrebase.initialize_app(cred)
     auth=firebase.auth()
 
 def signup():
