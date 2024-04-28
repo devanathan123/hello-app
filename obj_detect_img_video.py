@@ -187,8 +187,6 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
               currentClass_s = ""
               currentClass_t = ""
 
-              names = model.model.names
-
 
               if success_t:
                 # results = model.track(img_t, persist=True,
@@ -286,8 +284,7 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
                   cv2.line(img_t, (bottom_limits1[0], bottom_limits1[1]), (bottom_limits1[2], bottom_limits1[3]), (0, 0, 255), 3)
                   cv2.line(img_t, (bottom_limits2[0], bottom_limits2[1]), (bottom_limits2[2], bottom_limits2[3]), (255, 0, 0), 3)
   
-                  stframe_t.image(img_t, channels='BGR', use_column_width=True)
-  
+                    
               else:
                   break
 
@@ -511,8 +508,6 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
                             Total_products_t = Total_products_t + 1
                             # print(classArray[cnt])
                             out_line_t.remove(id)
-    
-    
-
+                stframe_t.image(img_t, channels='BGR', use_column_width=True)
     
     st.title("!!FINISHED !!")
