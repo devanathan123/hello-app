@@ -7,6 +7,7 @@ import cvzone
 import math
 from pathlib import Path
 import sys
+from sort import *
 
 def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_text, kpi4_text,kpi5_text,stframe_s,stframe_t):
     cap_s = cv2.VideoCapture(video_name_s)
@@ -156,4 +157,4 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
                   break
 
   
-    st.title("DONE !!")
+    st.title("FINISH !!")
