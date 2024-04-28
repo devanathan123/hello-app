@@ -8,6 +8,7 @@ import math
 from pathlib import Path
 import sys
 from obj_detect_img_video import *
+from sort import *
 
 def main():
     #st.markdown("<center>welcome</center>",unsafe_allow_html=True,)
