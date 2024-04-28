@@ -80,6 +80,11 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
     model = YOLO(DETECTION_MODEL)
     classNames = ['Cinthol_Soap', 'Hamam_Soap', 'Him_Face_Wash', 'Maa_Juice', 'Mango', 'Mysore_Sandal_Soap','Patanjali_Dant_Kanti', 'Tide_Bar_Soap', 'ujala_liquid']
     #st.title("Streamlit Video Player")
+
+    track_history = defaultdict(lambda: [])
+    model.to("cpu")
+    names = model.model.names
+
     
     #Display the video frame by frame
     stop_button = st.button("Stop")
@@ -192,27 +197,60 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
 
 
               if success_t:
-                    res_t = model.track(img_t, conf=0.3, persist=True, tracker="botsort.yaml")
-                    #res_plotted_t = res_t[0].plot()
-                    st.title(res_t[0])
-    
-                    stframe_t.image(res_plotted_t,#caption='Detected Video',
-                                      channels="BGR",use_column_width=True)
-                      
-                      
-                    cv2.line(img_t, (left_limits1[0], left_limits1[1]), (left_limits1[2], left_limits1[3]), (0, 0, 255), 3)
-                    cv2.line(img_t, (left_limits2[0], left_limits2[1]), (left_limits2[2], left_limits2[3]), (255, 0, 0), 3)
-    
-                    cv2.line(img_t, (right_limits1[0], right_limits1[1]), (right_limits1[2], right_limits1[3]), (0, 0, 255), 3)
-                    cv2.line(img_t, (right_limits2[0], right_limits2[1]), (right_limits2[2], right_limits2[3]), (255, 0, 0), 3)
-    
-                    cv2.line(img_t, (top_limits1[0], top_limits1[1]), (top_limits1[2], top_limits1[3]), (0, 0, 255), 3)
-                    cv2.line(img_t, (top_limits2[0], top_limits2[1]), (top_limits2[2], top_limits2[3]), (255, 0, 0), 3)
-    
-                    cv2.line(img_t, (bottom_limits1[0], bottom_limits1[1]), (bottom_limits1[2], bottom_limits1[3]), (0, 0, 255), 3)
-                    cv2.line(img_t, (bottom_limits2[0], bottom_limits2[1]), (bottom_limits2[2], bottom_limits2[3]), (255, 0, 0), 3)
+                results = model.track(frame, persist=True,
+                              tracker="bytetrack.yaml")
 
-                  #stframe_t.image(img_t, channels='BGR', use_column_width=True)
+                boxes = results[0].boxes.xywh.cpu()
+                clss = results[0].boxes.cls.cpu().tolist()
+                track_ids = results[0].boxes.id.int().cpu().tolist()
+        
+                annotator = Annotator(frame, line_width=2,
+                                      example=str(names))
+        
+                for box, track_id, cls in zip(boxes, track_ids, clss):
+                    x, y, w, h = box
+                    x1, y1, x2, y2 = (x - w / 2, y - h / 2,
+                                      x + w / 2, y + h / 2)
+                    label = str(names[cls]) + " : " + str(track_id)
+                    annotator.box_label([x1, y1, x2, y2],
+                                        label, (218, 100, 255))
+        
+                    # Tracking Lines plot
+                    track = track_history[track_id]
+                    track.append((float(box[0]), float(box[1])))
+                    if len(track) > 30:
+                        track.pop(0)
+        
+                    points = np.hstack(track).astype(np.int32).reshape((-1, 1, 2))
+                    cv2.polylines(frame, [points], isClosed=False,
+                                  color=(37, 255, 225), thickness=2)
+        
+                    # Center circle
+                    cv2.circle(frame,
+                               (int(track[-1][0]), int(track[-1][1])),
+                               5, (235, 219, 11), -1)
+
+                    # res_t = model.track(img_t, conf=0.3, persist=True, tracker="botsort.yaml")
+                    # #res_plotted_t = res_t[0].plot()
+                    # #st.title(res_t[0])
+    
+                    # stframe_t.image(res_plotted_t,#caption='Detected Video',
+                    #                   channels="BGR",use_column_width=True)
+                      
+                      
+                cv2.line(img_t, (left_limits1[0], left_limits1[1]), (left_limits1[2], left_limits1[3]), (0, 0, 255), 3)
+                cv2.line(img_t, (left_limits2[0], left_limits2[1]), (left_limits2[2], left_limits2[3]), (255, 0, 0), 3)
+    
+                cv2.line(img_t, (right_limits1[0], right_limits1[1]), (right_limits1[2], right_limits1[3]), (0, 0, 255), 3)
+                cv2.line(img_t, (right_limits2[0], right_limits2[1]), (right_limits2[2], right_limits2[3]), (255, 0, 0), 3)
+    
+                cv2.line(img_t, (top_limits1[0], top_limits1[1]), (top_limits1[2], top_limits1[3]), (0, 0, 255), 3)
+                cv2.line(img_t, (top_limits2[0], top_limits2[1]), (top_limits2[2], top_limits2[3]), (255, 0, 0), 3)
+    
+                cv2.line(img_t, (bottom_limits1[0], bottom_limits1[1]), (bottom_limits1[2], bottom_limits1[3]), (0, 0, 255), 3)
+                cv2.line(img_t, (bottom_limits2[0], bottom_limits2[1]), (bottom_limits2[2], bottom_limits2[3]), (255, 0, 0), 3)
+
+                stframe_t.image(img_t, channels='BGR', use_column_width=True)
 
 
                   # for r in results_t:
