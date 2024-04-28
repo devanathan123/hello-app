@@ -12,7 +12,7 @@ from firebase_admin import credentials,firestore,auth
 from google.cloud.firestore_v1.base_query import FieldFilter,Or
 import requests
 import time
-from sort import *
+#from sort import *
 
 Products_added = []
 out_line=[]
@@ -185,24 +185,24 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
               currentClass_s = ""
               currentClass_t = ""
 
-              # # Tracking New MODEL
-              # res_s = model.track(img_s, conf=0.3, persist=True, tracker="sort.yaml")
-              # res_t = model.track(img_t, conf=0.3, persist=True, tracker="sort.yaml")
-              # # # Plot the detected objects on the video frame
-              # res_plotted_s = res_s[0].plot()
-              # res_plotted_t = res_t[0].plot()
+              # Tracking New MODEL
+              res_s = model.track(img_s, conf=0.3, persist=True, tracker="sort.yaml")
+              res_t = model.track(img_t, conf=0.3, persist=True, tracker="sort.yaml")
+              # # Plot the detected objects on the video frame
+              res_plotted_s = res_s[0].plot()
+              res_plotted_t = res_t[0].plot()
             
-              # stframe_s.image(res_plotted_s,
-              #      caption='Detected Video',
-              #      channels="BGR",
-              #      use_column_width=True
-              #      )
+              stframe_s.image(res_plotted_s,
+                   caption='Detected Video',
+                   channels="BGR",
+                   use_column_width=True
+                   )
 
-              # stframe_t.image(res_plotted_t,
-              #      caption='Detected Video',
-              #      channels="BGR",
-              #      use_column_width=True
-              #      )
+              stframe_t.image(res_plotted_t,
+                   caption='Detected Video',
+                   channels="BGR",
+                   use_column_width=True
+                   )
 
               if success_t:
 
@@ -290,172 +290,172 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
               else:
                   break
         
-              resultsTracker_s = tracker_s.update(detections_s)
-              resultsTracker_t = tracker_t.update(detections_t)
+              # resultsTracker_s = tracker_s.update(detections_s)
+              # resultsTracker_t = tracker_t.update(detections_t)
 
-              for result in resultsTracker_t:
+              # for result in resultsTracker_t:
 
-                x1, y1, x2, y2, id = result
-                x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)
+              #   x1, y1, x2, y2, id = result
+              #   x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)
 
-                w, h = x2 - x1, y2 - y1
-                # cvzone.cornerRect(img, (x1, y1, w, h), l=9, rt=2, colorR=(255, 0, 255))
+              #   w, h = x2 - x1, y2 - y1
+              #   # cvzone.cornerRect(img, (x1, y1, w, h), l=9, rt=2, colorR=(255, 0, 255))
 
-                cx, cy = x1 + w // 2, y1 + h // 2
-                cv2.circle(img_t, (cx, cy), 7, (0, 0, 255), cv2.FILLED)
+              #   cx, cy = x1 + w // 2, y1 + h // 2
+              #   cv2.circle(img_t, (cx, cy), 7, (0, 0, 255), cv2.FILLED)
 
-                # -------To Get the CurrentClass for the Objects detected--------------------------------
-                for r in allArray_t:
-                    if (r[0] - 50 < x1 < r[0] + 50 and r[1] - 50 < y1 < r[1] + 50 and r[2] - 50 < x2 < r[2] + 50 and r[3] - 50 < y2 < r[3] + 50):
-                        currentClass_t = r[4]
+              #   # -------To Get the CurrentClass for the Objects detected--------------------------------
+              #   for r in allArray_t:
+              #       if (r[0] - 50 < x1 < r[0] + 50 and r[1] - 50 < y1 < r[1] + 50 and r[2] - 50 < x2 < r[2] + 50 and r[3] - 50 < y2 < r[3] + 50):
+              #           currentClass_t = r[4]
 
-                # -------------- Bounding Box for the objects inside the CART ----------------------------
-                if left_limits1[0] < cx < right_limits1[0] and top_limits1[1] < cy < bottom_limits1[1]:
-                    cvzone.putTextRect(img_t, f' {int(id)}', (max(0, cx), max(35, cy)), scale=1, thickness=1)
-                    cv2.rectangle(img_t, (x1, y1), (x2, y2), (0, 255, 0), 2)
+              #   # -------------- Bounding Box for the objects inside the CART ----------------------------
+              #   if left_limits1[0] < cx < right_limits1[0] and top_limits1[1] < cy < bottom_limits1[1]:
+              #       cvzone.putTextRect(img_t, f' {int(id)}', (max(0, cx), max(35, cy)), scale=1, thickness=1)
+              #       cv2.rectangle(img_t, (x1, y1), (x2, y2), (0, 255, 0), 2)
 
-                # left-LINE---------------------------------------------------------------------------
-                # ------LEFT OUTER LIMIT-----------------------------------------
-                if left_limits1[0] - 25 < cx < left_limits1[2] + 25 and left_limits1[1] < cy < left_limits1[3]:
-                    cv2.line(img_t, (left_limits1[0], left_limits1[1]), (left_limits1[2], left_limits1[3]), (0, 255, 0), 5)
+              #   # left-LINE---------------------------------------------------------------------------
+              #   # ------LEFT OUTER LIMIT-----------------------------------------
+              #   if left_limits1[0] - 25 < cx < left_limits1[2] + 25 and left_limits1[1] < cy < left_limits1[3]:
+              #       cv2.line(img_t, (left_limits1[0], left_limits1[1]), (left_limits1[2], left_limits1[3]), (0, 255, 0), 5)
 
-                    if out_line_t.count(id) == 0 and in_line_t.count(id) == 0:
-                        # if totalCount.count(id) == 0:
-                        out_line_t.append(id)
-                        print("out-1")
+              #       if out_line_t.count(id) == 0 and in_line_t.count(id) == 0:
+              #           # if totalCount.count(id) == 0:
+              #           out_line_t.append(id)
+              #           print("out-1")
 
-                    else:
-                        # ---------- REMOVE ITEM ------------------
+              #       else:
+              #           # ---------- REMOVE ITEM ------------------
 
-                        if out_line_t.count(id) == 0 and in_line_t.count(id) == 1:
-                            print("out-2")
-                            # totalCount.remove(id)
-                            Total_products_t = Total_products_t - 1
-                            # print(classArray[cnt])
-                            in_line_t.remove(id)
+              #           if out_line_t.count(id) == 0 and in_line_t.count(id) == 1:
+              #               print("out-2")
+              #               # totalCount.remove(id)
+              #               Total_products_t = Total_products_t - 1
+              #               # print(classArray[cnt])
+              #               in_line_t.remove(id)
 
-                # -------LEFT INNER LIMIT------------------------------------------------------
+              #   # -------LEFT INNER LIMIT------------------------------------------------------
 
-                if left_limits2[0] - 25 < cx < left_limits2[2] + 25 and left_limits2[1] < cy < left_limits2[3]:
-                    cv2.line(img_t, (left_limits2[0], left_limits2[1]), (left_limits2[2], left_limits2[3]),(0, 255, 0), 5)
-                    if in_line_t.count(id) == 0 and out_line_t.count(id) == 0:
-                            # if totalCount.count(id) == 0:
-                        print("in-1")
-                        in_line_t.append(id)
-                    else:
-                        # ------------ ADD ITEM ----------------------
-                        if in_line_t.count(id) == 0 and out_line_t.count(id) == 1:
+              #   if left_limits2[0] - 25 < cx < left_limits2[2] + 25 and left_limits2[1] < cy < left_limits2[3]:
+              #       cv2.line(img_t, (left_limits2[0], left_limits2[1]), (left_limits2[2], left_limits2[3]),(0, 255, 0), 5)
+              #       if in_line_t.count(id) == 0 and out_line_t.count(id) == 0:
+              #               # if totalCount.count(id) == 0:
+              #           print("in-1")
+              #           in_line_t.append(id)
+              #       else:
+              #           # ------------ ADD ITEM ----------------------
+              #           if in_line_t.count(id) == 0 and out_line_t.count(id) == 1:
 
-                            print("in-2")
-                            # totalCount.remove(id)
-                            Total_products_t = Total_products_t + 1
-                            # print(classArray[cnt])
-                            out_line_t.remove(id)
+              #               print("in-2")
+              #               # totalCount.remove(id)
+              #               Total_products_t = Total_products_t + 1
+              #               # print(classArray[cnt])
+              #               out_line_t.remove(id)
     
-                # right----------------------------------------------
-                # ------RIGHT OUTER LIMIT-----------------------------------------
-                if right_limits1[0] + 25 > cx > right_limits1[2] - 25 and right_limits1[1] < cy < right_limits1[3]:
-                    cv2.line(img_t, (right_limits1[0], right_limits1[1]), (right_limits1[2], right_limits1[3]),(0, 255, 0),5)
-                    if out_line_t.count(id) == 0 and in_line_t.count(id) == 0:
-                            # if totalCount.count(id) == 0:
-                        out_line_t.append(id)
-                        print("out-1-right")
+              #   # right----------------------------------------------
+              #   # ------RIGHT OUTER LIMIT-----------------------------------------
+              #   if right_limits1[0] + 25 > cx > right_limits1[2] - 25 and right_limits1[1] < cy < right_limits1[3]:
+              #       cv2.line(img_t, (right_limits1[0], right_limits1[1]), (right_limits1[2], right_limits1[3]),(0, 255, 0),5)
+              #       if out_line_t.count(id) == 0 and in_line_t.count(id) == 0:
+              #               # if totalCount.count(id) == 0:
+              #           out_line_t.append(id)
+              #           print("out-1-right")
 
-                    else:
-                        # ---------- REMOVE ITEM ------------------
-                        if out_line_t.count(id) == 0 and in_line_t.count(id) == 1:
-                            print("out-2")
-                            # totalCount.remove(id)
-                            Total_products_t = Total_products_t - 1
-                            # print(classArray[cnt])
-                            in_line_t.remove(id)
+              #       else:
+              #           # ---------- REMOVE ITEM ------------------
+              #           if out_line_t.count(id) == 0 and in_line_t.count(id) == 1:
+              #               print("out-2")
+              #               # totalCount.remove(id)
+              #               Total_products_t = Total_products_t - 1
+              #               # print(classArray[cnt])
+              #               in_line_t.remove(id)
                 
 
-                # --------RIGHT INNER LIMIT ---------------------------------------
-                if right_limits2[0] + 25 > cx > right_limits2[2] - 25 and right_limits2[1] < cy < right_limits2[3]:
-                    cv2.line(img_t, (right_limits2[0], right_limits2[1]), (right_limits2[2], right_limits2[3]),(0, 255, 0),5)
-                    if in_line_t.count(id) == 0 and out_line_t.count(id) == 0:
-                        # if totalCount.count(id) == 0:
-                        print("in-1")
-                        in_line_t.append(id)
-                    else:
-                        # ------------ ADD ITEM ----------------------
-                        if in_line_t.count(id) == 0 and out_line_t.count(id) == 1:
-                            print("in-2")
-                            # totalCount.remove(id)
-                            Total_products_t = Total_products_t + 1
-                            # print(classArray[cnt])
-                            out_line_t.remove(id)
+              #   # --------RIGHT INNER LIMIT ---------------------------------------
+              #   if right_limits2[0] + 25 > cx > right_limits2[2] - 25 and right_limits2[1] < cy < right_limits2[3]:
+              #       cv2.line(img_t, (right_limits2[0], right_limits2[1]), (right_limits2[2], right_limits2[3]),(0, 255, 0),5)
+              #       if in_line_t.count(id) == 0 and out_line_t.count(id) == 0:
+              #           # if totalCount.count(id) == 0:
+              #           print("in-1")
+              #           in_line_t.append(id)
+              #       else:
+              #           # ------------ ADD ITEM ----------------------
+              #           if in_line_t.count(id) == 0 and out_line_t.count(id) == 1:
+              #               print("in-2")
+              #               # totalCount.remove(id)
+              #               Total_products_t = Total_products_t + 1
+              #               # print(classArray[cnt])
+              #               out_line_t.remove(id)
 
-                # ----- TOP----------------------------------------------------------------------------------------------------------
-                # --------------------TOP-OUTER LINE-----------------------------------------
+              #   # ----- TOP----------------------------------------------------------------------------------------------------------
+              #   # --------------------TOP-OUTER LINE-----------------------------------------
 
-                if top_limits1[0] < cx < top_limits1[2] and top_limits1[1] - 25 < cy < top_limits1[3] + 25:
-                    cv2.line(img_t, (top_limits1[0], top_limits1[1]), (top_limits1[2], top_limits1[3]), (0, 255, 0),5)
-                    if out_line_t.count(id) == 0 and in_line_t.count(id) == 0:
-                            # if totalCount.count(id) == 0:
-                        out_line_t.append(id)
-                        print("out-1")
+              #   if top_limits1[0] < cx < top_limits1[2] and top_limits1[1] - 25 < cy < top_limits1[3] + 25:
+              #       cv2.line(img_t, (top_limits1[0], top_limits1[1]), (top_limits1[2], top_limits1[3]), (0, 255, 0),5)
+              #       if out_line_t.count(id) == 0 and in_line_t.count(id) == 0:
+              #               # if totalCount.count(id) == 0:
+              #           out_line_t.append(id)
+              #           print("out-1")
 
-                    else:
-                        # ---------- REMOVE ITEM ------------------
-                        if out_line_t.count(id) == 0 and in_line_t.count(id) == 1:
-                            print("out-2")
-                            # totalCount.remove(id)
-                            Total_products_t = Total_products_t - 1
-                            # print(classArray[cnt])
-                            in_line_t.remove(id)
+              #       else:
+              #           # ---------- REMOVE ITEM ------------------
+              #           if out_line_t.count(id) == 0 and in_line_t.count(id) == 1:
+              #               print("out-2")
+              #               # totalCount.remove(id)
+              #               Total_products_t = Total_products_t - 1
+              #               # print(classArray[cnt])
+              #               in_line_t.remove(id)
 
-                # -------TOP INNER LIMIT------------------------------------------------------
-                if top_limits2[0]  < cx < top_limits2[2]  and top_limits2[1] - 25 < cy < top_limits2[3] + 25:
-                    cv2.line(img_t, (top_limits2[0], top_limits2[1]), (top_limits2[2], top_limits2[3]),(0, 255, 0), 5)
-                    if in_line_t.count(id) == 0 and out_line_t.count(id) == 0:
-                        # if totalCount.count(id) == 0:
-                        print("in-1")
-                        in_line_t.append(id)
-                    else:
-                        # ------------ ADD ITEM ----------------------
-                        if in_line_t.count(id) == 0 and out_line_t.count(id) == 1:
-                            print("in-2")
-                            # totalCount.remove(id)
-                            Total_products_t = Total_products_t + 1
-                            # print(classArray[cnt])
-                            out_line_t.remove(id)
+              #   # -------TOP INNER LIMIT------------------------------------------------------
+              #   if top_limits2[0]  < cx < top_limits2[2]  and top_limits2[1] - 25 < cy < top_limits2[3] + 25:
+              #       cv2.line(img_t, (top_limits2[0], top_limits2[1]), (top_limits2[2], top_limits2[3]),(0, 255, 0), 5)
+              #       if in_line_t.count(id) == 0 and out_line_t.count(id) == 0:
+              #           # if totalCount.count(id) == 0:
+              #           print("in-1")
+              #           in_line_t.append(id)
+              #       else:
+              #           # ------------ ADD ITEM ----------------------
+              #           if in_line_t.count(id) == 0 and out_line_t.count(id) == 1:
+              #               print("in-2")
+              #               # totalCount.remove(id)
+              #               Total_products_t = Total_products_t + 1
+              #               # print(classArray[cnt])
+              #               out_line_t.remove(id)
 
-                # -----BOTTOM -------------------------------------------
-                # ---------------------BOTTOM OUTER LIMIT------------------------------------------------------------
-                if bottom_limits1[0] < cx < bottom_limits1[2] and bottom_limits1[1] - 25 < cy < bottom_limits1[3] + 25:
-                    cv2.line(img_t, (bottom_limits1[0], bottom_limits1[1]), (bottom_limits1[2], bottom_limits1[3]),
-                                 (0, 255, 0), 5)
-                    if out_line_t.count(id) == 0 and in_line_t.count(id) == 0:
-                        # if totalCount.count(id) == 0:
-                        out_line_t.append(id)
-                        print("out-1")
+              #   # -----BOTTOM -------------------------------------------
+              #   # ---------------------BOTTOM OUTER LIMIT------------------------------------------------------------
+              #   if bottom_limits1[0] < cx < bottom_limits1[2] and bottom_limits1[1] - 25 < cy < bottom_limits1[3] + 25:
+              #       cv2.line(img_t, (bottom_limits1[0], bottom_limits1[1]), (bottom_limits1[2], bottom_limits1[3]),
+              #                    (0, 255, 0), 5)
+              #       if out_line_t.count(id) == 0 and in_line_t.count(id) == 0:
+              #           # if totalCount.count(id) == 0:
+              #           out_line_t.append(id)
+              #           print("out-1")
 
-                    else:
-                        # ---------- REMOVE ITEM ------------------
-                        if out_line_t.count(id) == 0 and in_line_t.count(id) == 1:
-                            print("out-2")
-                            # totalCount.remove(id)
-                            Total_products_t = Total_products_t - 1
-                            # print(classArray[cnt])
-                            in_line_t.remove(id)
+              #       else:
+              #           # ---------- REMOVE ITEM ------------------
+              #           if out_line_t.count(id) == 0 and in_line_t.count(id) == 1:
+              #               print("out-2")
+              #               # totalCount.remove(id)
+              #               Total_products_t = Total_products_t - 1
+              #               # print(classArray[cnt])
+              #               in_line_t.remove(id)
 
-                # -------BOTTOM INNER LIMIT------------------------------------------------------
-                if bottom_limits2[0] - 25 < cx < bottom_limits2[2] + 25 and bottom_limits2[1] < cy < bottom_limits2[3]:
-                    cv2.line(img_t, (bottom_limits2[0], bottom_limits2[1]), (bottom_limits2[2], bottom_limits2[3]),(0, 255, 0), 5)
-                    if in_line_t.count(id) == 0 and out_line_t.count(id) == 0:
-                        # if totalCount.count(id) == 0:
-                        print("in-1")
-                        in_line_t.append(id)
-                    else:
-                        # ------------ ADD ITEM ----------------------
-                        if in_line_t.count(id) == 0 and out_line_t.count(id) == 1:
-                            print("in-2")
-                            # totalCount.remove(id)
-                            Total_products_t = Total_products_t + 1
-                            # print(classArray[cnt])
-                            out_line_t.remove(id)
+              #   # -------BOTTOM INNER LIMIT------------------------------------------------------
+              #   if bottom_limits2[0] - 25 < cx < bottom_limits2[2] + 25 and bottom_limits2[1] < cy < bottom_limits2[3]:
+              #       cv2.line(img_t, (bottom_limits2[0], bottom_limits2[1]), (bottom_limits2[2], bottom_limits2[3]),(0, 255, 0), 5)
+              #       if in_line_t.count(id) == 0 and out_line_t.count(id) == 0:
+              #           # if totalCount.count(id) == 0:
+              #           print("in-1")
+              #           in_line_t.append(id)
+              #       else:
+              #           # ------------ ADD ITEM ----------------------
+              #           if in_line_t.count(id) == 0 and out_line_t.count(id) == 1:
+              #               print("in-2")
+              #               # totalCount.remove(id)
+              #               Total_products_t = Total_products_t + 1
+              #               # print(classArray[cnt])
+              #               out_line_t.remove(id)
     
     
 
