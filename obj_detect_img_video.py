@@ -144,8 +144,8 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
               currentClass_t = ""
 
               # Tracking
-              res_s = model.track(img_s, conf=0.3, persist=True, tracker="botsort.yaml")
-              res_t = model.track(img_t, conf=0.3, persist=True, tracker="botsort.yaml")
+              res_s = model.track(img_s, conf=0.3, persist=True, tracker="sort.yaml")
+              res_t = model.track(img_t, conf=0.3, persist=True, tracker="sort.yaml")
               # # Plot the detected objects on the video frame
               res_plotted_s = res_s[0].plot()
               res_plotted_t = res_t[0].plot()
