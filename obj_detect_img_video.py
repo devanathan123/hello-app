@@ -194,7 +194,8 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
                     #st.title(res_t[0])
                     boxes = res_t[0].boxes.xywh
                     clss = res_t[0].boxes.cls.tolist()
-                    track_ids = res_t[0].boxes.id.tolist()
+                    st.title(res_t[0].boxes.id)
+                    #track_ids = res_t[0].boxes.id.tolist()
             
                     annotator = Annotator(img_t, line_width=2,
                                           example=str(names))
