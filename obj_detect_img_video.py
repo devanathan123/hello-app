@@ -108,17 +108,17 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
     doc_ref=db.collection(tb).document(product)
     doc=doc_ref.get()
     if doc.exists:
-      st.title(doc.to_dict())
+      #st.title(doc.to_dict())
+      field_value = doc_data.get('Stock')
+      st.title(field_value)
+   
     else:
       st.title("NOT FOUND")
 
-#    query = "SELE products SET Stock = Stock-1 WHERE Name=%s"
-#    cursor.execute(query, (value_to_select,))
-#    query = "select Stock,Amount from products where Name=%s"
-#    cursor.execute(query, (value_to_select,))
-#    table = cursor.fetchall()
-#    connection.commit()
-#    for row in table:
+
+    
+        
+     
 #      kpi4_text.write(f"<h1  style='color:red;'>{value_to_select}</h1>",unsafe_allow_html=True)
 #      kpi3_text.write(f"<h1  style='color:red;'>{row[0]}</h1>",unsafe_allow_html=True)
 #      kpi2_text.write(f"<h1 style='color:red;'>{'{:.1f}'.format(row[1])}</h1>",unsafe_allow_html=True)
