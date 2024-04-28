@@ -150,13 +150,13 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
               res_plotted_s = res_s[0].plot()
               res_plotted_t = res_t[0].plot()
             
-              st_frame.image(res_plotted_s,
+              stframe_s.image(res_plotted_s,
                    caption='Detected Video',
                    channels="BGR",
                    use_column_width=True
                    )
 
-              st_frame.image(res_plotted_t,
+              stframe_t.image(res_plotted_t,
                    caption='Detected Video',
                    channels="BGR",
                    use_column_width=True
