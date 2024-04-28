@@ -197,7 +197,7 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
 
 
               if success_t:
-                results = model.track(frame, persist=True,
+                results = model.track(img_t, persist=True,
                               tracker="bytetrack.yaml")
 
                 boxes = results[0].boxes.xywh.cpu()
