@@ -10,7 +10,7 @@ import sys
 import firebase_admin
 from firebase_admin import credentials,firestore,auth
 from google.cloud.firestore_v1.base_query import FieldFilter,Or
-
+import requests
 
 Products_added = []
 out_line=[]
