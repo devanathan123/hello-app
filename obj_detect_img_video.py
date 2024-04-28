@@ -12,7 +12,10 @@ from firebase_admin import credentials,firestore,auth
 from google.cloud.firestore_v1.base_query import FieldFilter,Or
 import requests
 import time
-#from sort import *
+from collections import defaultdict
+from ultralytics.utils.plotting import Annotator
+
+#from sort import*
 
 Products_added = []
 out_line=[]
@@ -190,7 +193,7 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
 
               if success_t:
                     res_t = model.track(img_t, conf=0.3, persist=True, tracker="botsort.yaml")
-                    res_plotted_t = res_t[0].plot()
+                    #res_plotted_t = res_t[0].plot()
                     st.title(res_t[0])
     
                     stframe_t.image(res_plotted_t,#caption='Detected Video',
