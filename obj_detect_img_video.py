@@ -216,7 +216,7 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
   
                           w, h = x2 - x1, y2 - y1
                           cx, cy = x1 + w // 2, y1 + h // 2
-  
+                          cv2.circle(img_t, (cx, cy), 7, (0, 0, 255), cv2.FILLED)
                           # cv2.rectangle(img_s, (x1, y1), (x2, y2), (0, 0, 255), 2)
                           # Confidence
                           conf = math.ceil((box.conf[0] * 100)) / 100
@@ -262,6 +262,7 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
   
                           w, h = x2 - x1, y2 - y1
                           cx, cy = x1 + w // 2, y1 + h // 2
+                          cv2.circle(img_s, (cx, cy), 7, (0, 0, 255), cv2.FILLED)
   
                           # cv2.rectangle(img_s, (x1, y1), (x2, y2), (0, 0, 255), 2)
                           # Confidence
