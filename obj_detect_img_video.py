@@ -327,7 +327,7 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
   
                           currentClass_s = classNames[cls]
   
-                          if currentClass_t != "person" and conf > 0.3 and 650 > cy:
+                          if currentClass_s != "person" and conf > 0.3 and 650 > cy:
   
                               cvzone.putTextRect(img_s, f'{currentClass_s} {conf}',(max(0, x1), max(35, y1)),scale=3, thickness=3)  # Class Name
                               cv2.rectangle(img_s, (x1, y1), (x2, y2), (0, 255, 0), 2)
