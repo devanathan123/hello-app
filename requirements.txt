@@ -73,8 +73,8 @@ simple-webbrowser
 smmap==5.0.1
 streamlit==1.32.2
 sympy==1.12
-skimage
-#scikit-image
+#skimage
+scikit-image==0.23.2
 time
 Tkinter
 tenacity==8.2.3
