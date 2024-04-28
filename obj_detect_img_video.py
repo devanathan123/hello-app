@@ -7,7 +7,7 @@ import cvzone
 import math
 from pathlib import Path
 import sys
-from sort import *
+#from sort import *
 import firebase_admin
 from firebase_admin import credentials,firestore,auth
 from google.cloud.firestore_v1.base_query import FieldFilter,Or
