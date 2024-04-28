@@ -190,9 +190,8 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
               if success_t:
                   res_t = model.track(img_t, conf=0.3, persist=True, tracker="botsort.yaml")
                   res_plotted_t = res_t[0].plot()
-                  st.title(res_t[0])
-                  
-                  #stframe_t.image(res_plotted_t,#caption='Detected Video',channels="BGR",use_column_width=True)
+                  st.title(res_t[0]['masks'])
+                  stframe_t.image(res_plotted_t,#caption='Detected Video',channels="BGR",use_column_width=True)
                   
                   
                   cv2.line(img_t, (left_limits1[0], left_limits1[1]), (left_limits1[2], left_limits1[3]), (0, 0, 255), 3)
@@ -207,7 +206,7 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
                   cv2.line(img_t, (bottom_limits1[0], bottom_limits1[1]), (bottom_limits1[2], bottom_limits1[3]), (0, 0, 255), 3)
                   cv2.line(img_t, (bottom_limits2[0], bottom_limits2[1]), (bottom_limits2[2], bottom_limits2[3]), (255, 0, 0), 3)
 
-                  stframe_t.image(img_t, channels='BGR', use_column_width=True)
+                  #stframe_t.image(img_t, channels='BGR', use_column_width=True)
 
 
                   # for r in results_t:
