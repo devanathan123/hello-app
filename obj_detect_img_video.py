@@ -172,8 +172,8 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
     Hide_remove_time = 0
 
     #--Tracking------------------------
-    # tracker_s = Sort(max_age=20, min_hits=3, iou_threshold=0.3)
-    # tracker_t = Sort(max_age=20, min_hits=3, iou_threshold=0.3)
+    tracker_s = Sort(max_age=20, min_hits=3, iou_threshold=0.3)
+    tracker_t = Sort(max_age=20, min_hits=3, iou_threshold=0.3)
     
     while cap_t.isOpened() and cap_s.isOpened() and not stop_button:
               success_t, img_t= cap_t.read()
