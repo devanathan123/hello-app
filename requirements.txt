@@ -7,7 +7,7 @@ certifi==2024.2.2
 charset-normalizer==3.3.2
 click==8.1.7
 contourpy==1.2.0
-collections
+collection
 cycler==0.12.1
 Cython==3.0.9
 cvzone
