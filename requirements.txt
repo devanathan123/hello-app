@@ -11,6 +11,7 @@ Cython==3.0.9
 cvzone
 filelock==3.13.1
 firebase_admin
+google-cloud-firestore
 fonttools==4.50.0
 fsspec==2024.3.1
 gitdb==4.0.11
