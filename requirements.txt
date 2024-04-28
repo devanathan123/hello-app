@@ -73,7 +73,7 @@ simple-webbrowser
 smmap==5.0.1
 streamlit==1.32.2
 sympy==1.12
-#skimage
+skimage
 #scikit-image
 time
 Tkinter
