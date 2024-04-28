@@ -111,7 +111,8 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
       #st.title(doc.to_dict())
       doc_data = doc.to_dict()
       field_value = doc_data.get('Stock')
-      st.title(field_value)
+      kpi4_text.write(f"<h1  style='color:red;'>{field_value}</h1>",unsafe_allow_html=True)    
+      #st.title(field_value)
    
     else:
       st.title("NOT FOUND")
