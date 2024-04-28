@@ -1,6 +1,7 @@
 import streamlit as st
 import os
-#import cv2
+import cv2
+import opencv-python-headless
 import numpy as np
 from ultralytics import YOLO
 import cvzone
