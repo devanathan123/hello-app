@@ -79,11 +79,6 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
     model = YOLO(DETECTION_MODEL)
     classNames = ['Cinthol_Soap', 'Hamam_Soap', 'Him_Face_Wash', 'Maa_Juice', 'Mango', 'Mysore_Sandal_Soap','Patanjali_Dant_Kanti', 'Tide_Bar_Soap', 'ujala_liquid']
     #st.title("Streamlit Video Player")
-
-    track_history = defaultdict(lambda: [])
-    model.to("cpu")
-    names = model.model.names
-
     
     #Display the video frame by frame
     stop_button = st.button("Stop")
@@ -196,156 +191,156 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
 
 
               if success_t:
-                results = model.track(img_t, persist=True,
-                              tracker="bytetrack.yaml")
+                # results = model.track(img_t, persist=True,
+                #               tracker="bytetrack.yaml")
 
-                boxes = results[0].boxes.xywh.cpu()
-                clss = results[0].boxes.cls.cpu().tolist()
-                track_ids = results[0].boxes.id.int().cpu().tolist()
+                # boxes = results[0].boxes.xywh.cpu()
+                # clss = results[0].boxes.cls.cpu().tolist()
+                # track_ids = results[0].boxes.id.int().cpu().tolist()
         
-                annotator = Annotator(img_t, line_width=2,
-                                      example=str(names))
+                # annotator = Annotator(img_t, line_width=2,
+                #                       example=str(names))
         
-                for box, track_id, cls in zip(boxes, track_ids, clss):
-                    x, y, w, h = box
-                    x1, y1, x2, y2 = (x - w / 2, y - h / 2,
-                                      x + w / 2, y + h / 2)
-                    label = str(names[cls]) + " : " + str(track_id)
-                    annotator.box_label([x1, y1, x2, y2],
-                                        label, (218, 100, 255))
+                # for box, track_id, cls in zip(boxes, track_ids, clss):
+                #     x, y, w, h = box
+                #     x1, y1, x2, y2 = (x - w / 2, y - h / 2,
+                #                       x + w / 2, y + h / 2)
+                #     label = str(names[cls]) + " : " + str(track_id)
+                #     annotator.box_label([x1, y1, x2, y2],
+                #                         label, (218, 100, 255))
         
-                    # Tracking Lines plot
-                    track = track_history[track_id]
-                    track.append((float(box[0]), float(box[1])))
-                    if len(track) > 30:
-                        track.pop(0)
+                #     # Tracking Lines plot
+                #     track = track_history[track_id]
+                #     track.append((float(box[0]), float(box[1])))
+                #     if len(track) > 30:
+                #         track.pop(0)
         
-                    points = np.hstack(track).astype(np.int32).reshape((-1, 1, 2))
-                    cv2.polylines(img_t, [points], isClosed=False,
-                                  color=(37, 255, 225), thickness=2)
+                #     points = np.hstack(track).astype(np.int32).reshape((-1, 1, 2))
+                #     cv2.polylines(img_t, [points], isClosed=False,
+                #                   color=(37, 255, 225), thickness=2)
         
-                    # Center circle
-                    cv2.circle(img_t,
-                               (int(track[-1][0]), int(track[-1][1])),
-                               5, (235, 219, 11), -1)
+                #     # Center circle
+                #     cv2.circle(img_t,
+                #                (int(track[-1][0]), int(track[-1][1])),
+                #                5, (235, 219, 11), -1)
 
-                    # res_t = model.track(img_t, conf=0.3, persist=True, tracker="botsort.yaml")
-                    # #res_plotted_t = res_t[0].plot()
-                    # #st.title(res_t[0])
+                #     # res_t = model.track(img_t, conf=0.3, persist=True, tracker="botsort.yaml")
+                #     # #res_plotted_t = res_t[0].plot()
+                #     # #st.title(res_t[0])
     
-                    # stframe_t.image(res_plotted_t,#caption='Detected Video',
-                    #                   channels="BGR",use_column_width=True)
+                #     # stframe_t.image(res_plotted_t,#caption='Detected Video',
+                #     #                   channels="BGR",use_column_width=True)
                       
                       
-                cv2.line(img_t, (left_limits1[0], left_limits1[1]), (left_limits1[2], left_limits1[3]), (0, 0, 255), 3)
-                cv2.line(img_t, (left_limits2[0], left_limits2[1]), (left_limits2[2], left_limits2[3]), (255, 0, 0), 3)
+                # cv2.line(img_t, (left_limits1[0], left_limits1[1]), (left_limits1[2], left_limits1[3]), (0, 0, 255), 3)
+                # cv2.line(img_t, (left_limits2[0], left_limits2[1]), (left_limits2[2], left_limits2[3]), (255, 0, 0), 3)
     
-                cv2.line(img_t, (right_limits1[0], right_limits1[1]), (right_limits1[2], right_limits1[3]), (0, 0, 255), 3)
-                cv2.line(img_t, (right_limits2[0], right_limits2[1]), (right_limits2[2], right_limits2[3]), (255, 0, 0), 3)
+                # cv2.line(img_t, (right_limits1[0], right_limits1[1]), (right_limits1[2], right_limits1[3]), (0, 0, 255), 3)
+                # cv2.line(img_t, (right_limits2[0], right_limits2[1]), (right_limits2[2], right_limits2[3]), (255, 0, 0), 3)
     
-                cv2.line(img_t, (top_limits1[0], top_limits1[1]), (top_limits1[2], top_limits1[3]), (0, 0, 255), 3)
-                cv2.line(img_t, (top_limits2[0], top_limits2[1]), (top_limits2[2], top_limits2[3]), (255, 0, 0), 3)
+                # cv2.line(img_t, (top_limits1[0], top_limits1[1]), (top_limits1[2], top_limits1[3]), (0, 0, 255), 3)
+                # cv2.line(img_t, (top_limits2[0], top_limits2[1]), (top_limits2[2], top_limits2[3]), (255, 0, 0), 3)
     
-                cv2.line(img_t, (bottom_limits1[0], bottom_limits1[1]), (bottom_limits1[2], bottom_limits1[3]), (0, 0, 255), 3)
-                cv2.line(img_t, (bottom_limits2[0], bottom_limits2[1]), (bottom_limits2[2], bottom_limits2[3]), (255, 0, 0), 3)
+                # cv2.line(img_t, (bottom_limits1[0], bottom_limits1[1]), (bottom_limits1[2], bottom_limits1[3]), (0, 0, 255), 3)
+                # cv2.line(img_t, (bottom_limits2[0], bottom_limits2[1]), (bottom_limits2[2], bottom_limits2[3]), (255, 0, 0), 3)
 
-                stframe_t.image(img_t, channels='BGR', use_column_width=True)
+                # stframe_t.image(img_t, channels='BGR', use_column_width=True)
 
 
-                  # for r in results_t:
-                  #     boxes = r.boxes
+                  for r in results_t:
+                      boxes = r.boxes
   
-                  #     for box in boxes:
-                  #         # Bounding Box
-                  #         x1, y1, x2, y2 = box.xyxy[0]
-                  #         x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)
+                      for box in boxes:
+                          # Bounding Box
+                          x1, y1, x2, y2 = box.xyxy[0]
+                          x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)
   
-                  #         w, h = x2 - x1, y2 - y1
-                  #         cx, cy = x1 + w // 2, y1 + h // 2
-                  #         cv2.circle(img_t, (cx, cy), 7, (0, 0, 255), cv2.FILLED)
-                  #         # cv2.rectangle(img_s, (x1, y1), (x2, y2), (0, 0, 255), 2)
-                  #         # Confidence
-                  #         conf = math.ceil((box.conf[0] * 100)) / 100
-                  #         # Class Name
-                  #         cls = int(box.cls[0])
+                          w, h = x2 - x1, y2 - y1
+                          cx, cy = x1 + w // 2, y1 + h // 2
+                          cv2.circle(img_t, (cx, cy), 7, (0, 0, 255), cv2.FILLED)
+                          # cv2.rectangle(img_s, (x1, y1), (x2, y2), (0, 0, 255), 2)
+                          # Confidence
+                          conf = math.ceil((box.conf[0] * 100)) / 100
+                          # Class Name
+                          cls = int(box.cls[0])
   
-                  #         currentClass_t = classNames[cls]
+                          currentClass_t = classNames[cls]
   
-                  #         if currentClass_t != "person" and conf > 0.3 and 650 > cy:
+                          if currentClass_t != "person" and conf > 0.3 and 650 > cy:
   
-                  #             cvzone.putTextRect(img_t, f'{currentClass_t} {conf}',(max(0, x1), max(35, y1)), scale=3, thickness=3)  # Class Name
-                  #             cv2.rectangle(img_t, (x1, y1), (x2, y2), (0, 255, 0), 2)
-                  #             allArray_t.append([x1, y1, x2, y2, currentClass_t])
-                  #             currentArray_t = np.array([x1, y1, x2, y2, conf])
-                  #             detections_t = np.vstack((detections_t, currentArray_t))
+                              cvzone.putTextRect(img_t, f'{currentClass_t} {conf}',(max(0, x1), max(35, y1)), scale=3, thickness=3)  # Class Name
+                              cv2.rectangle(img_t, (x1, y1), (x2, y2), (0, 255, 0), 2)
+                              allArray_t.append([x1, y1, x2, y2, currentClass_t])
+                              currentArray_t = np.array([x1, y1, x2, y2, conf])
+                              detections_t = np.vstack((detections_t, currentArray_t))
 
-                  # cv2.line(img_t, (left_limits1[0], left_limits1[1]), (left_limits1[2], left_limits1[3]), (0, 0, 255), 3)
-                  # cv2.line(img_t, (left_limits2[0], left_limits2[1]), (left_limits2[2], left_limits2[3]), (255, 0, 0), 3)
+                  cv2.line(img_t, (left_limits1[0], left_limits1[1]), (left_limits1[2], left_limits1[3]), (0, 0, 255), 3)
+                  cv2.line(img_t, (left_limits2[0], left_limits2[1]), (left_limits2[2], left_limits2[3]), (255, 0, 0), 3)
 
-                  # cv2.line(img_t, (right_limits1[0], right_limits1[1]), (right_limits1[2], right_limits1[3]), (0, 0, 255), 3)
-                  # cv2.line(img_t, (right_limits2[0], right_limits2[1]), (right_limits2[2], right_limits2[3]), (255, 0, 0), 3)
+                  cv2.line(img_t, (right_limits1[0], right_limits1[1]), (right_limits1[2], right_limits1[3]), (0, 0, 255), 3)
+                  cv2.line(img_t, (right_limits2[0], right_limits2[1]), (right_limits2[2], right_limits2[3]), (255, 0, 0), 3)
 
-                  # cv2.line(img_t, (top_limits1[0], top_limits1[1]), (top_limits1[2], top_limits1[3]), (0, 0, 255), 3)
-                  # cv2.line(img_t, (top_limits2[0], top_limits2[1]), (top_limits2[2], top_limits2[3]), (255, 0, 0), 3)
+                  cv2.line(img_t, (top_limits1[0], top_limits1[1]), (top_limits1[2], top_limits1[3]), (0, 0, 255), 3)
+                  cv2.line(img_t, (top_limits2[0], top_limits2[1]), (top_limits2[2], top_limits2[3]), (255, 0, 0), 3)
 
-                  # cv2.line(img_t, (bottom_limits1[0], bottom_limits1[1]), (bottom_limits1[2], bottom_limits1[3]), (0, 0, 255), 3)
-                  # cv2.line(img_t, (bottom_limits2[0], bottom_limits2[1]), (bottom_limits2[2], bottom_limits2[3]), (255, 0, 0), 3)
+                  cv2.line(img_t, (bottom_limits1[0], bottom_limits1[1]), (bottom_limits1[2], bottom_limits1[3]), (0, 0, 255), 3)
+                  cv2.line(img_t, (bottom_limits2[0], bottom_limits2[1]), (bottom_limits2[2], bottom_limits2[3]), (255, 0, 0), 3)
   
-                  # stframe_t.image(img_t, channels='BGR', use_column_width=True)
+                  stframe_t.image(img_t, channels='BGR', use_column_width=True)
   
               else:
                   break
 
               if success_s:
                 # Tracking New MODEL
-                res_s = model.track(img_s, conf=0.3, persist=True, tracker="botsort.yaml")
-                res_plotted_s = res_s[0].plot()
+                # res_s = model.track(img_s, conf=0.3, persist=True, tracker="botsort.yaml")
+                # res_plotted_s = res_s[0].plot()
                 
-                stframe_s.image(res_plotted_s,
-                   #caption='Detected Video',
-                   channels="BGR",use_column_width=True)
+                # stframe_s.image(res_plotted_s,
+                #    #caption='Detected Video',
+                #    channels="BGR",use_column_width=True)
                   
-                cv2.line(img_s, (top_limits1_s[0], top_limits1_s[1]), (top_limits1_s[2], top_limits1_s[3]), (0, 0, 255), 3)
-                cv2.line(img_s, (top_limits2_s[0], top_limits2_s[1]), (top_limits2_s[2], top_limits2_s[3]), (255, 0, 0), 3)
-                cv2.line(img_s, (top_limits3_s[0], top_limits3_s[1]), (top_limits3_s[2], top_limits3_s[3]), (255, 0, 0), 3)
+                # cv2.line(img_s, (top_limits1_s[0], top_limits1_s[1]), (top_limits1_s[2], top_limits1_s[3]), (0, 0, 255), 3)
+                # cv2.line(img_s, (top_limits2_s[0], top_limits2_s[1]), (top_limits2_s[2], top_limits2_s[3]), (255, 0, 0), 3)
+                # cv2.line(img_s, (top_limits3_s[0], top_limits3_s[1]), (top_limits3_s[2], top_limits3_s[3]), (255, 0, 0), 3)
                 
-                #stframe_s.image(img_s, channels='BGR', use_column_width=True)
+                # #stframe_s.image(img_s, channels='BGR', use_column_width=True)
 
   
-                  # for r in results_s:
-                  #     boxes = r.boxes
+                  for r in results_s:
+                      boxes = r.boxes
   
-                  #     for box in boxes:
-                  #         # Bounding Box
-                  #         x1, y1, x2, y2 = box.xyxy[0]
-                  #         x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)
+                      for box in boxes:
+                          # Bounding Box
+                          x1, y1, x2, y2 = box.xyxy[0]
+                          x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)
   
-                  #         w, h = x2 - x1, y2 - y1
-                  #         cx, cy = x1 + w // 2, y1 + h // 2
-                  #         cv2.circle(img_s, (cx, cy), 7, (0, 0, 255), cv2.FILLED)
+                          w, h = x2 - x1, y2 - y1
+                          cx, cy = x1 + w // 2, y1 + h // 2
+                          cv2.circle(img_s, (cx, cy), 7, (0, 0, 255), cv2.FILLED)
   
-                  #         # cv2.rectangle(img_s, (x1, y1), (x2, y2), (0, 0, 255), 2)
-                  #         # Confidence
-                  #         conf = math.ceil((box.conf[0] * 100)) / 100
-                  #         # Class Name
-                  #         cls = int(box.cls[0])
+                          # cv2.rectangle(img_s, (x1, y1), (x2, y2), (0, 0, 255), 2)
+                          # Confidence
+                          conf = math.ceil((box.conf[0] * 100)) / 100
+                          # Class Name
+                          cls = int(box.cls[0])
   
-                  #         currentClass_s = classNames[cls]
+                          currentClass_s = classNames[cls]
   
-                  #         if currentClass_t != "person" and conf > 0.3 and 650 > cy:
+                          if currentClass_t != "person" and conf > 0.3 and 650 > cy:
   
-                  #             cvzone.putTextRect(img_s, f'{currentClass_s} {conf}',(max(0, x1), max(35, y1)),scale=3, thickness=3)  # Class Name
-                  #             cv2.rectangle(img_s, (x1, y1), (x2, y2), (0, 255, 0), 2)
-                  #             allArray_s.append([x1, y1, x2, y2, currentClass_s])
-                  #             currentArray_s = np.array([x1, y1, x2, y2, conf])
-                  #             detections_s = np.vstack((detections_s, currentArray_s))
+                              cvzone.putTextRect(img_s, f'{currentClass_s} {conf}',(max(0, x1), max(35, y1)),scale=3, thickness=3)  # Class Name
+                              cv2.rectangle(img_s, (x1, y1), (x2, y2), (0, 255, 0), 2)
+                              allArray_s.append([x1, y1, x2, y2, currentClass_s])
+                              currentArray_s = np.array([x1, y1, x2, y2, conf])
+                              detections_s = np.vstack((detections_s, currentArray_s))
                   
                   
-                  # cv2.line(img_s, (top_limits1_s[0], top_limits1_s[1]), (top_limits1_s[2], top_limits1_s[3]), (0, 0, 255), 3)
-                  # cv2.line(img_s, (top_limits2_s[0], top_limits2_s[1]), (top_limits2_s[2], top_limits2_s[3]), (255, 0, 0), 3)
-                  # cv2.line(img_s, (top_limits3_s[0], top_limits3_s[1]), (top_limits3_s[2], top_limits3_s[3]), (255, 0, 0), 3)
+                  cv2.line(img_s, (top_limits1_s[0], top_limits1_s[1]), (top_limits1_s[2], top_limits1_s[3]), (0, 0, 255), 3)
+                  cv2.line(img_s, (top_limits2_s[0], top_limits2_s[1]), (top_limits2_s[2], top_limits2_s[3]), (255, 0, 0), 3)
+                  cv2.line(img_s, (top_limits3_s[0], top_limits3_s[1]), (top_limits3_s[2], top_limits3_s[3]), (255, 0, 0), 3)
                   
-                  # stframe_s.image(img_s, channels='BGR', use_column_width=True)
+                  stframe_s.image(img_s, channels='BGR', use_column_width=True)
   
               else:
                   break
