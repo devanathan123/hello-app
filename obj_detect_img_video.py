@@ -7,49 +7,10 @@ import cvzone
 import math
 from pathlib import Path
 import sys
-#from sort import *
-import firebase_admin
-#from google.cloud.firestore_v1.base_query import FieldFilter,Or
-
-
-Products_added = []
-out_line=[]
-in_line=[]
-Final=[]
-U_Final=[]
-current_total =0
-Free = []
-
-
-# Load JSON key file from GitHub
-def load_json_key():
-    url = "https://raw.githubusercontent.com/devanathan123/stream_app/main/private_key.json"
-    try:
-        response = requests.get(url)
-        response.raise_for_status()  # Raise an error for HTTP errors (e.g., 404, 500)
-        key_data = response.json()
-        return key_data
-    except Exception as e:
-        st.error(f"Error fetching JSON key: {e}")
-        return None
-
-# Check if Firebase Admin SDK is already initialized
-if not firebase_admin._apps:
-    # Initialize Firebase Admin SDK
-    key_data = load_json_key()
-    cred = credentials.Certificate(key_data)
-    firebase_admin.initialize_app(cred)
-
-
 
 def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_text, kpi4_text,kpi5_text,stframe_s,stframe_t):
     cap_s = cv2.VideoCapture(video_name_s)
     cap_t = cv2.VideoCapture(video_name_t)
-    
-    # -----Background Subtractor---------------------------------------
-    backgroundObject = cv2.createBackgroundSubtractorMOG2(history=2)
-    kernel = np.ones((3, 3), np.uint8)
-
     cap_s.set(3, 1920)
     cap_s.set(4, 1080)
 
@@ -78,11 +39,6 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
     
     #Display the video frame by frame
     stop_button = st.button("Stop")
-
-    # Tracking
-    tracker_s = Sort(max_age=20, min_hits=3, iou_threshold=0.3)
-    tracker_t = Sort(max_age=20, min_hits=3, iou_threshold=0.3)
-
     
     #------ BOUNDARY LINES --------------------------------------------------------------
     left_limits1 = [250 , 50 ,250, 1000 ]
@@ -101,34 +57,6 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
     top_limits1_s = [0 , 450 , 1920 ,450 ]
     top_limits2_s = [0 , 500 , 1920 ,500 ]
     top_limits3_s = [0 , 650 , 1920 ,650 ]
-
-
-    #!!!!!!! -details !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    tb=shop3
-    product=Mango
-    doc_ref=db.collection(tb).document(product)
-    doc=doc_ref.get()
-    if doc.exists:
-      st.title(doc.to_dict())
-    else:
-      st.title("NOT FOUND")
-
-#    query = "SELE products SET Stock = Stock-1 WHERE Name=%s"
-#    cursor.execute(query, (value_to_select,))
-#    query = "select Stock,Amount from products where Name=%s"
-#    cursor.execute(query, (value_to_select,))
-#    table = cursor.fetchall()
-#    connection.commit()
-#    for row in table:
-#      kpi4_text.write(f"<h1  style='color:red;'>{value_to_select}</h1>",unsafe_allow_html=True)
-#      kpi3_text.write(f"<h1  style='color:red;'>{row[0]}</h1>",unsafe_allow_html=True)
-#      kpi2_text.write(f"<h1 style='color:red;'>{'{:.1f}'.format(row[1])}</h1>",unsafe_allow_html=True)
-#      if len(Free_tmp)>0 and ele==Discount_Product:
-#        Free_tmp.remove(Discount_Product)
-#      else:
-#        current_total = current_total + row[1]
-#        U_Final.append(value_to_select)
-#      kpi1_text.write(f"<h1 style='color:white;'>{'{:.1f}'.format(current_total)}</h1>",unsafe_allow_html=True)
 
 
     
@@ -227,5 +155,5 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
               else:
                   break
 
-    
-    st.title("FINISH !!")
+  
+    st.title("DONE !!")
