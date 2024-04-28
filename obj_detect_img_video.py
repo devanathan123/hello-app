@@ -130,6 +130,43 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
 #      kpi1_text.write(f"<h1 style='color:white;'>{'{:.1f}'.format(current_total)}</h1>",unsafe_allow_html=True)
 
 
+    current_total=0
+
+    # ----SIDE-----------
+    totalCount_s = []
+
+    Total_products_s = 0
+    Products_added_s = []
+    Products_removed_s = []
+    out_line_s = []
+    in_line_s = []
+
+    # ---TOP----------------
+    totalCount_t = []
+
+    Total_products_t = 0
+    Products_added_t = []
+    Products_removed_t = []
+
+    out_line_t = []
+    in_line_t = []
+
+    #Final = []
+    Hide = []
+    Hide_remove = []
+    Segment_remove = []
+
+    # -----------Directions------------
+    Left = []
+    Right = []
+    Top = []
+    Bottom = []
+
+    # ----Time--------------
+    start = time.time()
+    Hide_add_time = 0
+    Hide_remove_time = 0
+
     
     while cap_t.isOpened() and cap_s.isOpened() and not stop_button:
               success_t, img_t= cap_t.read()
@@ -163,7 +200,7 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
               #      )
 
               if success_t:
-  
+
                   for r in results_t:
                       boxes = r.boxes
   
