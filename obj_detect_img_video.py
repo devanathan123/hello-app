@@ -143,107 +143,107 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
               currentClass_s = ""
               currentClass_t = ""
 
-              # Tracking
-              res_s = model.track(img_s, conf=0.3, persist=True, tracker="sort.yaml")
-              res_t = model.track(img_t, conf=0.3, persist=True, tracker="sort.yaml")
-              # # Plot the detected objects on the video frame
-              res_plotted_s = res_s[0].plot()
-              res_plotted_t = res_t[0].plot()
+              # # Tracking
+              # res_s = model.track(img_s, conf=0.3, persist=True, tracker="sort.yaml")
+              # res_t = model.track(img_t, conf=0.3, persist=True, tracker="sort.yaml")
+              # # # Plot the detected objects on the video frame
+              # res_plotted_s = res_s[0].plot()
+              # res_plotted_t = res_t[0].plot()
             
-              stframe_s.image(res_plotted_s,
-                   caption='Detected Video',
-                   channels="BGR",
-                   use_column_width=True
-                   )
+              # stframe_s.image(res_plotted_s,
+              #      caption='Detected Video',
+              #      channels="BGR",
+              #      use_column_width=True
+              #      )
 
-              stframe_t.image(res_plotted_t,
-                   caption='Detected Video',
-                   channels="BGR",
-                   use_column_width=True
-                   )
+              # stframe_t.image(res_plotted_t,
+              #      caption='Detected Video',
+              #      channels="BGR",
+              #      use_column_width=True
+              #      )
 
-              # if success_t:
+              if success_t:
   
-              #     for r in results_t:
-              #         boxes = r.boxes
+                  for r in results_t:
+                      boxes = r.boxes
   
-              #         for box in boxes:
-              #             # Bounding Box
-              #             x1, y1, x2, y2 = box.xyxy[0]
-              #             x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)
+                      for box in boxes:
+                          # Bounding Box
+                          x1, y1, x2, y2 = box.xyxy[0]
+                          x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)
   
-              #             w, h = x2 - x1, y2 - y1
-              #             cx, cy = x1 + w // 2, y1 + h // 2
+                          w, h = x2 - x1, y2 - y1
+                          cx, cy = x1 + w // 2, y1 + h // 2
   
-              #             # cv2.rectangle(img_s, (x1, y1), (x2, y2), (0, 0, 255), 2)
-              #             # Confidence
-              #             conf = math.ceil((box.conf[0] * 100)) / 100
-              #             # Class Name
-              #             cls = int(box.cls[0])
+                          # cv2.rectangle(img_s, (x1, y1), (x2, y2), (0, 0, 255), 2)
+                          # Confidence
+                          conf = math.ceil((box.conf[0] * 100)) / 100
+                          # Class Name
+                          cls = int(box.cls[0])
   
-              #             currentClass_t = classNames[cls]
+                          currentClass_t = classNames[cls]
   
-              #             if currentClass_t != "person" and conf > 0.3 and 650 > cy:
+                          if currentClass_t != "person" and conf > 0.3 and 650 > cy:
   
-              #                 cvzone.putTextRect(img_t, f'{currentClass_t} {conf}',
-              #                                    (max(0, x1), max(35, y1)),
-              #                                    scale=3, thickness=3)  # Class Name
-              #                 cv2.rectangle(img_t, (x1, y1), (x2, y2), (0, 255, 0), 2)
+                              cvzone.putTextRect(img_t, f'{currentClass_t} {conf}',
+                                                 (max(0, x1), max(35, y1)),
+                                                 scale=3, thickness=3)  # Class Name
+                              cv2.rectangle(img_t, (x1, y1), (x2, y2), (0, 255, 0), 2)
 
-              #     cv2.line(img_t, (left_limits1[0], left_limits1[1]), (left_limits1[2], left_limits1[3]), (0, 0, 255), 3)
-              #     cv2.line(img_t, (left_limits2[0], left_limits2[1]), (left_limits2[2], left_limits2[3]), (255, 0, 0), 3)
+                  cv2.line(img_t, (left_limits1[0], left_limits1[1]), (left_limits1[2], left_limits1[3]), (0, 0, 255), 3)
+                  cv2.line(img_t, (left_limits2[0], left_limits2[1]), (left_limits2[2], left_limits2[3]), (255, 0, 0), 3)
 
-              #     cv2.line(img_t, (right_limits1[0], right_limits1[1]), (right_limits1[2], right_limits1[3]), (0, 0, 255), 3)
-              #     cv2.line(img_t, (right_limits2[0], right_limits2[1]), (right_limits2[2], right_limits2[3]), (255, 0, 0), 3)
+                  cv2.line(img_t, (right_limits1[0], right_limits1[1]), (right_limits1[2], right_limits1[3]), (0, 0, 255), 3)
+                  cv2.line(img_t, (right_limits2[0], right_limits2[1]), (right_limits2[2], right_limits2[3]), (255, 0, 0), 3)
 
-              #     cv2.line(img_t, (top_limits1[0], top_limits1[1]), (top_limits1[2], top_limits1[3]), (0, 0, 255), 3)
-              #     cv2.line(img_t, (top_limits2[0], top_limits2[1]), (top_limits2[2], top_limits2[3]), (255, 0, 0), 3)
+                  cv2.line(img_t, (top_limits1[0], top_limits1[1]), (top_limits1[2], top_limits1[3]), (0, 0, 255), 3)
+                  cv2.line(img_t, (top_limits2[0], top_limits2[1]), (top_limits2[2], top_limits2[3]), (255, 0, 0), 3)
 
-              #     cv2.line(img_t, (bottom_limits1[0], bottom_limits1[1]), (bottom_limits1[2], bottom_limits1[3]), (0, 0, 255), 3)
-              #     cv2.line(img_t, (bottom_limits2[0], bottom_limits2[1]), (bottom_limits2[2], bottom_limits2[3]), (255, 0, 0), 3)
+                  cv2.line(img_t, (bottom_limits1[0], bottom_limits1[1]), (bottom_limits1[2], bottom_limits1[3]), (0, 0, 255), 3)
+                  cv2.line(img_t, (bottom_limits2[0], bottom_limits2[1]), (bottom_limits2[2], bottom_limits2[3]), (255, 0, 0), 3)
   
-              #     stframe_t.image(img_t, channels='BGR', use_column_width=True)
+                  stframe_t.image(img_t, channels='BGR', use_column_width=True)
   
-              # else:
-              #     break
+              else:
+                  break
 
-              # if success_s:
+              if success_s:
   
-              #     for r in results_s:
-              #         boxes = r.boxes
+                  for r in results_s:
+                      boxes = r.boxes
   
-              #         for box in boxes:
-              #             # Bounding Box
-              #             x1, y1, x2, y2 = box.xyxy[0]
-              #             x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)
+                      for box in boxes:
+                          # Bounding Box
+                          x1, y1, x2, y2 = box.xyxy[0]
+                          x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)
   
-              #             w, h = x2 - x1, y2 - y1
-              #             cx, cy = x1 + w // 2, y1 + h // 2
+                          w, h = x2 - x1, y2 - y1
+                          cx, cy = x1 + w // 2, y1 + h // 2
   
-              #             # cv2.rectangle(img_s, (x1, y1), (x2, y2), (0, 0, 255), 2)
-              #             # Confidence
-              #             conf = math.ceil((box.conf[0] * 100)) / 100
-              #             # Class Name
-              #             cls = int(box.cls[0])
+                          # cv2.rectangle(img_s, (x1, y1), (x2, y2), (0, 0, 255), 2)
+                          # Confidence
+                          conf = math.ceil((box.conf[0] * 100)) / 100
+                          # Class Name
+                          cls = int(box.cls[0])
   
-              #             currentClass_s = classNames[cls]
+                          currentClass_s = classNames[cls]
   
-              #             if currentClass_t != "person" and conf > 0.3 and 650 > cy:
+                          if currentClass_t != "person" and conf > 0.3 and 650 > cy:
   
-              #                 cvzone.putTextRect(img_s, f'{currentClass_s} {conf}',
-              #                                    (max(0, x1), max(35, y1)),
-              #                                    scale=3, thickness=3)  # Class Name
-              #                 cv2.rectangle(img_s, (x1, y1), (x2, y2), (0, 255, 0), 2)
+                              cvzone.putTextRect(img_s, f'{currentClass_s} {conf}',
+                                                 (max(0, x1), max(35, y1)),
+                                                 scale=3, thickness=3)  # Class Name
+                              cv2.rectangle(img_s, (x1, y1), (x2, y2), (0, 255, 0), 2)
 
                   
-              #     cv2.line(img_s, (top_limits1_s[0], top_limits1_s[1]), (top_limits1_s[2], top_limits1_s[3]), (0, 0, 255), 3)
-              #     cv2.line(img_s, (top_limits2_s[0], top_limits2_s[1]), (top_limits2_s[2], top_limits2_s[3]), (255, 0, 0), 3)
-              #     cv2.line(img_s, (top_limits3_s[0], top_limits3_s[1]), (top_limits3_s[2], top_limits3_s[3]), (255, 0, 0), 3)
+                  cv2.line(img_s, (top_limits1_s[0], top_limits1_s[1]), (top_limits1_s[2], top_limits1_s[3]), (0, 0, 255), 3)
+                  cv2.line(img_s, (top_limits2_s[0], top_limits2_s[1]), (top_limits2_s[2], top_limits2_s[3]), (255, 0, 0), 3)
+                  cv2.line(img_s, (top_limits3_s[0], top_limits3_s[1]), (top_limits3_s[2], top_limits3_s[3]), (255, 0, 0), 3)
                   
-              #     stframe_s.image(img_s, channels='BGR', use_column_width=True)
+                  stframe_s.image(img_s, channels='BGR', use_column_width=True)
   
-              # else:
-              #     break
+              else:
+                  break
 
     
     st.title("FINISH !!")
