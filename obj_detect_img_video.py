@@ -109,6 +109,7 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
     doc=doc_ref.get()
     if doc.exists:
       #st.title(doc.to_dict())
+      doc_data = doc.to_dict()
       field_value = doc_data.get('Stock')
       st.title(field_value)
    
