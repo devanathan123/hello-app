@@ -229,4 +229,4 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
                   break
 
     
-    st.title("DONE !!")
+    st.title("FINISH !!")
