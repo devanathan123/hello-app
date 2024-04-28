@@ -14,7 +14,7 @@ import requests
 import time
 from collections import defaultdict
 from ultralytics.utils.plotting import Annotator
-from sort import*
+from sort import *
 
 Products_added = []
 out_line=[]
