@@ -190,34 +190,8 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
 
               if success_t:
                     res_t = model.track(img_t, conf=0.3, persist=True, tracker="botsort.yaml")
-                    #res_plotted_t = res_t[0].plot()
-                    #st.title(res_t[0])
-                    boxes = res_t[0].boxes.xywh
-                    clss = res_t[0].boxes.cls.tolist()
-                    st.title(res_t[0].boxes.id)
-                    track_id = int(np.array(res_t[0].boxes.id)[0])
-
-                    # track_ids = res_t[0].boxes.id.tolist()
-            
-                    annotator = Annotator(img_t, line_width=2,
-                                          example=str(names))
-            
-                    for box, track_id, cls in zip(boxes, track_ids, clss):
-                        x, y, w, h = box
-                        x1, y1, x2, y2 = (x - w / 2, y - h / 2,
-                                          x + w / 2, y + h / 2)
-
-                        cx, cy = x1 + w // 2, y1 + h // 2
-                        
-                        
-                        label = str(names[cls]) + " : " + str(track_id)
-                        annotator.box_label([x1, y1, x2, y2],
-                                            label, (218, 100, 255))
-            
-                        # Center circle
-                        cv2.circle(img_t, (cx, cy), 7, (0, 0, 255), cv2.FILLED)
-            
-                    
+                    res_plotted_t = res_t[0].plot()
+                    st.title(res_t[0])
     
                     stframe_t.image(res_plotted_t,#caption='Detected Video',
                                       channels="BGR",use_column_width=True)
@@ -295,7 +269,7 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
                 cv2.line(img_s, (top_limits2_s[0], top_limits2_s[1]), (top_limits2_s[2], top_limits2_s[3]), (255, 0, 0), 3)
                 cv2.line(img_s, (top_limits3_s[0], top_limits3_s[1]), (top_limits3_s[2], top_limits3_s[3]), (255, 0, 0), 3)
                 
-                stframe_s.image(img_s, channels='BGR', use_column_width=True)
+                #stframe_s.image(img_s, channels='BGR', use_column_width=True)
 
   
                   # for r in results_s:
