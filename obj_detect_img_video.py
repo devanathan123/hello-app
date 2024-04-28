@@ -195,30 +195,32 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
                     boxes = res_t[0].boxes.xywh
                     clss = res_t[0].boxes.cls.tolist()
                     st.title(res_t[0].boxes.id)
+                    track_id = int(res_t[0].boxes.id.item())
+
                     # track_ids = res_t[0].boxes.id.tolist()
             
-                    # annotator = Annotator(img_t, line_width=2,
-                    #                       example=str(names))
+                    annotator = Annotator(img_t, line_width=2,
+                                          example=str(names))
             
-                    # for box, track_id, cls in zip(boxes, track_ids, clss):
-                    #     x, y, w, h = box
-                    #     x1, y1, x2, y2 = (x - w / 2, y - h / 2,
-                    #                       x + w / 2, y + h / 2)
+                    for box, track_id, cls in zip(boxes, track_ids, clss):
+                        x, y, w, h = box
+                        x1, y1, x2, y2 = (x - w / 2, y - h / 2,
+                                          x + w / 2, y + h / 2)
 
-                    #     cx, cy = x1 + w // 2, y1 + h // 2
+                        cx, cy = x1 + w // 2, y1 + h // 2
                         
                         
-                    #     label = str(names[cls]) + " : " + str(track_id)
-                    #     annotator.box_label([x1, y1, x2, y2],
-                    #                         label, (218, 100, 255))
+                        label = str(names[cls]) + " : " + str(track_id)
+                        annotator.box_label([x1, y1, x2, y2],
+                                            label, (218, 100, 255))
             
-                    #     # Center circle
-                    #     cv2.circle(img_t, (cx, cy), 7, (0, 0, 255), cv2.FILLED)
+                        # Center circle
+                        cv2.circle(img_t, (cx, cy), 7, (0, 0, 255), cv2.FILLED)
             
                     
     
-                    # stframe_t.image(res_plotted_t,#caption='Detected Video',
-                    #                   channels="BGR",use_column_width=True)
+                    stframe_t.image(res_plotted_t,#caption='Detected Video',
+                                      channels="BGR",use_column_width=True)
                       
                       
                     cv2.line(img_t, (left_limits1[0], left_limits1[1]), (left_limits1[2], left_limits1[3]), (0, 0, 255), 3)
