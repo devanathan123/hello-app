@@ -204,7 +204,7 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
                 clss = results[0].boxes.cls.cpu().tolist()
                 track_ids = results[0].boxes.id.int().cpu().tolist()
         
-                annotator = Annotator(frame, line_width=2,
+                annotator = Annotator(img_t, line_width=2,
                                       example=str(names))
         
                 for box, track_id, cls in zip(boxes, track_ids, clss):
@@ -222,11 +222,11 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
                         track.pop(0)
         
                     points = np.hstack(track).astype(np.int32).reshape((-1, 1, 2))
-                    cv2.polylines(frame, [points], isClosed=False,
+                    cv2.polylines(img_t, [points], isClosed=False,
                                   color=(37, 255, 225), thickness=2)
         
                     # Center circle
-                    cv2.circle(frame,
+                    cv2.circle(img_t,
                                (int(track[-1][0]), int(track[-1][1])),
                                5, (235, 219, 11), -1)
 
