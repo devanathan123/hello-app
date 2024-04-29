@@ -12,8 +12,8 @@ from firebase_admin import credentials,firestore,auth
 from google.cloud.firestore_v1.base_query import FieldFilter,Or
 import requests
 import time
-from collections import defaultdict
-from ultralytics.utils.plotting import Annotator
+#from collections import defaultdict
+#from ultralytics.utils.plotting import Annotator
 #from sort import *
 
 Products_added = []
@@ -187,16 +187,18 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
               currentClass_s = ""
               currentClass_t = ""
 
-              res_t = model.track(img_t, conf=0.3, persist=True, tracker="botsort.yaml")
-              res_plotted_t = res_t[0].plot()
+              if success_t:
+                  res_t = model.track(img_t, conf=0.3, persist=True, tracker="botsort.yaml")
+                  res_plotted_t = res_t[0].plot()
                    
-              stframe_t.image(res_plotted_t,#caption='Detected Video',
+                  stframe_t.image(res_plotted_t,#caption='Detected Video',
                                       channels="BGR",use_column_width=True)
 
-              res_s = model.track(img_s, conf=0.3, persist=True, tracker="botsort.yaml")
-              res_plotted_s = res_s[0].plot()
+              if success_s:
+                  res_s = model.track(img_s, conf=0.3, persist=True, tracker="botsort.yaml")
+                  res_plotted_s = res_s[0].plot()
                    
-              stframe_s.image(res_plotted_s,#caption='Detected Video',
+                  stframe_s.image(res_plotted_s,#caption='Detected Video',
                                       channels="BGR",use_column_width=True)
         
         
@@ -522,4 +524,4 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
               #               out_line_t.remove(id)
               #   stframe_t.image(img_t, channels='BGR', use_column_width=True)
     
-    st.title("!!FINISHED !!")
+    st.title("!! DONE !!")
