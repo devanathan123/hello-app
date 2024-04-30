@@ -130,7 +130,7 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
     #   st.title("NOT FOUND")
 
     tb="shop3"
-    prod=["Mango","Maa_Juice"]
+    prod=["Him_Face_Wash","Maa_Juice"]
     db=firestore.client()
     for product in prod:
         doc_ref=db.collection(tb).document(product)
