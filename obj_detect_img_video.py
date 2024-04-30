@@ -119,7 +119,8 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
       #st.title(field_value)
 
       # To Update data:----------------------
-      doc_ref.update({'Stock': firestore.Increment(1)})
+      #doc_ref.update({'Stock': firestore.Increment(1)})
+      doc_ref.update({'Stock': firestore.Decrement(1)})
       doc=doc_ref.get()
       doc_data = doc.to_dict()
       field_value = doc_data.get('Stock')
