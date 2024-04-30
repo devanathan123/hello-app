@@ -86,14 +86,14 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
 
     
     #------ BOUNDARY LINES --------------------------------------------------------------
-    left_limits1 = [250 , 50 ,250, 1000 ]
-    left_limits2 = [350 , 50, 350, 1000 ]
+    left_limits1 = [250 , 100 ,250, 1000 ]
+    left_limits2 = [350 , 100, 350, 1000 ]
 
-    right_limits1 = [1650 ,50, 1650 , 1000 ]
-    right_limits2 = [1550 ,50, 1550 , 1000 ]
+    right_limits1 = [1650 ,100, 1650 , 1000 ]
+    right_limits2 = [1550 ,100, 1550 , 1000 ]
 
-    top_limits1 = [250 , 50 , 1650 , 50 ]
-    top_limits2 = [250 , 100 , 1550 , 100]
+    top_limits1 = [250 , 100 , 1650 , 100 ]
+    top_limits2 = [250 , 200 , 1550 , 200]
 
     bottom_limits1 = [250 ,1000 , 1650 ,1000]
     bottom_limits2 = [350 , 950 , 1550 , 950]
