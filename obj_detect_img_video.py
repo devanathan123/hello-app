@@ -49,8 +49,8 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
     cap_t = cv2.VideoCapture(video_name_t)
     
     # -----Background Subtractor---------------------------------------
-    backgroundObject = cv2.createBackgroundSubtractorMOG2(history=2)
-    kernel = np.ones((3, 3), np.uint8)
+    # backgroundObject = cv2.createBackgroundSubtractorMOG2(history=2)
+    # kernel = np.ones((3, 3), np.uint8)
 
     cap_s.set(3, 1920)
     cap_s.set(4, 1080)
@@ -102,20 +102,20 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
 
 
     #!!!!!!! -details !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    tb="shop3"
-    product="Mango"
-    db=firestore.client()
-    doc_ref=db.collection(tb).document(product)
-    doc=doc_ref.get()
-    if doc.exists:
-      #st.title(doc.to_dict())
-      doc_data = doc.to_dict()
-      field_value = doc_data.get('Stock')
-      kpi4_text.write(f"<h1  style='color:red;'>{field_value}</h1>",unsafe_allow_html=True)    
-      #st.title(field_value)
+    # tb="shop3"
+    # product="Mango"
+    # db=firestore.client()
+    # doc_ref=db.collection(tb).document(product)
+    # doc=doc_ref.get()
+    # if doc.exists:
+    #   #st.title(doc.to_dict())
+    #   doc_data = doc.to_dict()
+    #   field_value = doc_data.get('Stock')
+    #   kpi4_text.write(f"<h1  style='color:red;'>{field_value}</h1>",unsafe_allow_html=True)    
+    #   #st.title(field_value)
    
-    else:
-      st.title("NOT FOUND")
+    # else:
+    #   st.title("NOT FOUND")
 
 
     current_total=0
@@ -159,14 +159,14 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
     while cap_t.isOpened() and cap_s.isOpened() and not stop_button:
               success_t, img_t= cap_t.read()
               success_s, img_s= cap_s.read()
-              results_t = model(img_t, stream=True)
-              results_s = model(img_s, stream=True)
-              detections_t = np.empty((0,5))
-              detections_s = np.empty((0,5))
-              allArray_t = []
-              allArray_s = []
-              currentClass_s = ""
-              currentClass_t = ""
+              # results_t = model(img_t, stream=True)
+              # results_s = model(img_s, stream=True)
+              # detections_t = np.empty((0,5))
+              # detections_s = np.empty((0,5))
+              # allArray_t = []
+              # allArray_s = []
+              # currentClass_s = ""
+              # currentClass_t = ""
 
               if success_t:
                   res_t = model.track(img_t, conf=0.3, persist=True, tracker="botsort.yaml")
