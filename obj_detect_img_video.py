@@ -137,13 +137,14 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
         doc=doc_ref.get()
         if doc.exists:
             doc_ref.update({'Stock':firestore.Increment(-1)})
+            doc = doc_ref.get()
             doc_data = doc.to_dict()
             stock = doc_data.get('Stock')
             amt = doc_data.get('Amount')
             det = doc_data.get('Category')
-            kpi4_text.write(f"<h1  style='color:red;'>{stock}</h1>",unsafe_allow_html=True)
-            kpi3_text.write(f"<h1  style='color:red;'>{amt}</h1>",unsafe_allow_html=True)
-            kpi2_text.write(f"<h1 style='color:red;'>{det}</h1>",unsafe_allow_html=True)
+            kpi4_text.write(f"<h1  style='color:red;'>{det}</h1>",unsafe_allow_html=True)
+            kpi3_text.write(f"<h1  style='color:red;'>{stock}</h1>",unsafe_allow_html=True)
+            kpi2_text.write(f"<h1 style='color:red;'>{amt}</h1>",unsafe_allow_html=True)
         else:
             st.title("NOT FOUND")
 
