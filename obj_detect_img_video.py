@@ -109,7 +109,7 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
     product="Mango"
     db=firestore.client()
     doc_ref=db.collection(tb).document(product)
-    #doc=doc_ref.get()
+    doc=doc_ref.get()
     if doc.exists:
       # To get data:-------------------------
       #st.title(doc.to_dict())
