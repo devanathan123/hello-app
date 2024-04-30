@@ -111,11 +111,18 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
     doc_ref=db.collection(tb).document(product)
     doc=doc_ref.get()
     if doc.exists:
+      # To get data:-------------------------
       #st.title(doc.to_dict())
+      #doc_data = doc.to_dict()
+      #field_value = doc_data.get('Stock')
+      #kpi4_text.write(f"<h1  style='color:red;'>{field_value}</h1>",unsafe_allow_html=True)    
+      #st.title(field_value)
+
+      # To Update data:----------------------
+      doc_ref.update({'Stock': firestore.firestore_increment(1)})
       doc_data = doc.to_dict()
       field_value = doc_data.get('Stock')
-      kpi4_text.write(f"<h1  style='color:red;'>{field_value}</h1>",unsafe_allow_html=True)    
-      #st.title(field_value)
+      kpi4_text.write(f"<h1  style='color:red;'>{field_value}</h1>",unsafe_allow_html=True) 
    
     else:
       st.title("NOT FOUND")
