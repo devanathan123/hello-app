@@ -50,7 +50,7 @@ if not firebase_admin._apps:
 def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_text, kpi4_text,kpi5_text,stframe_s,stframe_t):
     cap_s = cv2.VideoCapture(video_name_s)
     cap_t = cv2.VideoCapture(video_name_t)
-    
+
     # -----Background Subtractor---------------------------------------
     backgroundObject = cv2.createBackgroundSubtractorMOG2(history=2)
     kernel = np.ones((3, 3), np.uint8)
@@ -227,14 +227,14 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
                           if currentClass_t != "person" and conf > 0.3 and 650 > cy:
   
                               cvzone.putTextRect(img_t, f'{currentClass_t} {conf}',(max(0, x1), max(35, y1)), scale=3, thickness=3)  # Class Name
-                              cv2.rectangle(img_t, (x1, y1), (x2, y2), (0, 255, 0), 2)
+                              #cv2.rectangle(img_t, (x1, y1), (x2, y2), (0, 255, 0), 2)
                               allArray_t.append([x1, y1, x2, y2, currentClass_t])
                               currentArray_t = np.array([x1, y1, x2, y2, conf])
                               detections_t = np.vstack((detections_t, currentArray_t))
 
        
                  
-                stframe_t.image(img_t, channels='BGR', use_column_width=True)
+                
                   
               else:
                   break
@@ -265,7 +265,7 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
                           if currentClass_s != "person" and conf > 0.3 and 650 > cy:
   
                               cvzone.putTextRect(img_s, f'{currentClass_s} {conf}',(max(0, x1), max(35, y1)),scale=3, thickness=3)  # Class Name
-                              cv2.rectangle(img_s, (x1, y1), (x2, y2), (0, 255, 0), 2)
+                              #cv2.rectangle(img_s, (x1, y1), (x2, y2), (0, 255, 0), 2)
                               allArray_s.append([x1, y1, x2, y2, currentClass_s])
                               currentArray_s = np.array([x1, y1, x2, y2, conf])
                               detections_s = np.vstack((detections_s, currentArray_s))
@@ -275,7 +275,7 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
                   cv2.line(img_s, (top_limits2_s[0], top_limits2_s[1]), (top_limits2_s[2], top_limits2_s[3]), (255, 0, 0), 3)
                   cv2.line(img_s, (top_limits3_s[0], top_limits3_s[1]), (top_limits3_s[2], top_limits3_s[3]), (255, 0, 0), 3)
                   
-                  stframe_s.image(img_s, channels='BGR', use_column_width=True)
+                  
   
               else:
                   break
@@ -446,7 +446,76 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
                             Total_products_t = Total_products_t + 1
                             # print(classArray[cnt])
                             out_line_t.remove(id)
-                stframe_t.image(img_t, channels='BGR', use_column_width=True)
+                
+
+              
+              for result in resultsTracker_s:
+              
+                    x1, y1, x2, y2, id = result
+                    x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)
+
+                    for r in allArray_s:
+                        if (r[0] - 50 < x1 < r[0] + 50 and r[1] - 50 < y1 < r[1] + 50 and r[2] - 50 < x2 < r[2] + 50 and r[3] - 50 < y2 < r[3] + 50):
+                            currentClass_s = r[4]
+
+                    w, h = x2 - x1, y2 - y1
+                    
+                    cx, cy = x1 + w // 2, y1 + h // 2
+                    cv2.circle(img_s, (cx, cy), 7, (0, 0, 255), cv2.FILLED)
+          
+                    #-----BOUNDING BOX FOR OBJECTS INSIDE CART--------------------------
+                    if top_limits1_s[1] < cy:
+                        cvzone.putTextRect(img_s, f' {int(id)}', (max(0, cx), max(35, cy)), scale=1.5, thickness=2,offset=10)
+                        cv2.rectangle(img_s, (x1, y1), (x2, y2), (0, 255, 0), 2)
+
+
+                    # TOP-OUTER LIMIT-----------------------------------------------------------
+
+                    if top_limits1_s[0] < cx < top_limits1_s[2] and top_limits1_s[1] - 25 < cy < top_limits1_s[3] + 25:
+                        cv2.line(img_s, (top_limits1_s[0], top_limits1_s[1]), (top_limits1_s[2], top_limits1_s[3]),(0, 255, 0), 5)
+
+                        if out_line_s.count(id) == 0 and in_line_s.count(id) == 0:
+                            # if totalCount.count(id) == 0:
+                            out_line_s.append(id)
+                            print("out-1")
+                        else:
+                            # REMOVE --------------------------------
+                            if out_line_s.count(id) == 0 and in_line_s.count(id) == 1:
+                                print("out-2")
+                                Total_products_s = Total_products_s - 1
+                                in_line_s.remove(id)
+
+
+                    # TOP-INNER-LIMIT----------------------------------------------------------------
+
+                    if top_limits2_s[0] < cx < top_limits2_s[2] and top_limits2_s[1] - 25 < cy < top_limits2_s[3] + 25:
+                        cv2.line(img_s, (top_limits2_s[0], top_limits2_s[1]), (top_limits2_s[2], top_limits2_s[3]),(0, 255, 0), 5)
+
+                        if in_line_s.count(id) == 0 and out_line_s.count(id) == 0:
+                            # if totalCount.count(id) == 0:
+                            print("in-1")
+                            in_line_s.append(id)
+
+                        else:
+                            # ADD --------------------------------
+                            if in_line_s.count(id) == 0 and out_line_s.count(id) == 1:
+                                print("in-2")
+                                Total_products_s = Total_products_s + 1
+                                out_line_s.remove(id)
+
+              
+              cv2.putText(img_s, "TOTAL: " + str(int(current_total)), (20, 360), cv2.FONT_HERSHEY_PLAIN, 2, (50, 50, 255), 5)
+              cv2.putText(img_t, "TOTAL: " + str(int(current_total)), (20, 360), cv2.FONT_HERSHEY_PLAIN, 2, (50, 50, 255), 5)
+
+              cv2.putText(img_s, "Count: " + str(len(U_Final)), (20, 60), cv2.FONT_HERSHEY_PLAIN, 2, (50, 50, 255), 5)
+              cv2.putText(img_s, "Free: " + str(len(Free)), (20, 120), cv2.FONT_HERSHEY_PLAIN, 2, (255, 0, 0), 5)
+
+              cv2.putText(img_t, "Count: " + str(len(U_Final)), (20, 60), cv2.FONT_HERSHEY_PLAIN, 2, (50, 50, 255), 5)
+              cv2.putText(img_t, "Free: " + str(len(Free)), (20, 120), cv2.FONT_HERSHEY_PLAIN, 2, (255, 0, 0), 5)      
+
+              stframe_t.image(img_t, channels='BGR', use_column_width=True)
+              stframe_s.image(img_s, channels='BGR', use_column_width=True)
+
     
     st.title("!! DONE !!")
 
