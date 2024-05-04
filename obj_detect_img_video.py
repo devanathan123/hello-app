@@ -181,7 +181,8 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
             
                     annotator = Annotator(img_t, line_width=2,
                                           example=str(names))
-            
+                    
+
                     for box, track_id, cls in zip(boxes, track_ids, clss):
                         x, y, w, h = box
                         x1, y1, x2, y2 = (x - w / 2, y - h / 2,
@@ -206,9 +207,9 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
                                    5, (235, 219, 11), -1)
 
                   #res_plotted_t = res_t[0].plot()
-                    
-                     stframe_t.image(img_t,channels="BGR",use_column_width=True)
+                    stframe_t.image(img_t,channels="BGR",use_column_width=True)
 
+        
               if success_s:
                   res_s = model.track(img_s, conf=0.3, persist=True, tracker="botsort.yaml")
                   res_plotted_s = res_s[0].plot()
