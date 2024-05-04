@@ -179,7 +179,7 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
               if success_s:
                   #res_s = model.track(img_s, conf=0.3, persist=True, tracker="botsort.yaml")
                   #res_plotted_s = res_s[0].plot()
-                   stframe_s.image(img_s,channel="BGR",use_column_width=True)
+                   stframe_s.image(img_s,channels="BGR",use_column_width=True)
                   #stframe_s.image(res_plotted_s,#caption='Detected Video',channels="BGR",use_column_width=True)
     
     st.title("!! DONE !!")
