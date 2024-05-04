@@ -13,6 +13,11 @@ from google.cloud.firestore_v1.base_query import FieldFilter,Or
 import requests
 import time
 #from sort import *
+from collections import defaultdict
+from ultralytics.utils.plotting import Annotator
+
+track_history = defaultdict(lambda: [])
+
 
 Products_added = []
 out_line=[]
@@ -169,10 +174,40 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
               # currentClass_t = ""
 
               if success_t:
-                  res_t = model.track(img_t, conf=0.3, persist=True, tracker="botsort.yaml")
-                  res_plotted_t = res_t[0].plot()
+                    res_t = model.track(img_t, conf=0.3, persist=True, tracker="botsort.yaml")
+                    boxes = results[0].boxes.xywh.cpu()
+                    clss = results[0].boxes.cls.cpu().tolist()
+                    track_ids = results[0].boxes.id.int().cpu().tolist()
+            
+                    annotator = Annotator(img_t, line_width=2,
+                                          example=str(names))
+            
+                    for box, track_id, cls in zip(boxes, track_ids, clss):
+                        x, y, w, h = box
+                        x1, y1, x2, y2 = (x - w / 2, y - h / 2,
+                                          x + w / 2, y + h / 2)
+                        label = str(names[cls]) + " : " + str(track_id)
+                        annotator.box_label([x1, y1, x2, y2],
+                                            label, (218, 100, 255))
+            
+                        # Tracking Lines plot
+                        track = track_history[track_id]
+                        track.append((float(box[0]), float(box[1])))
+                        if len(track) > 30:
+                            track.pop(0)
+            
+                        points = np.hstack(track).astype(np.int32).reshape((-1, 1, 2))
+                        cv2.polylines(img_t, [points], isClosed=False,
+                                      color=(37, 255, 225), thickness=2)
+            
+                        # Center circle
+                        cv2.circle(img_t,
+                                   (int(track[-1][0]), int(track[-1][1])),
+                                   5, (235, 219, 11), -1)
+
+                  #res_plotted_t = res_t[0].plot()
                     
-                  stframe_t.image(res_plotted_t,channels="BGR",use_column_width=True)
+                     stframe_t.image(img_t,channels="BGR",use_column_width=True)
 
               if success_s:
                   res_s = model.track(img_s, conf=0.3, persist=True, tracker="botsort.yaml")
