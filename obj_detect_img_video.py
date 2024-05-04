@@ -13,20 +13,6 @@ from google.cloud.firestore_v1.base_query import FieldFilter,Or
 import requests
 import time
 #from sort import *
-from collections import defaultdict
-from ultralytics.utils.plotting import Annotator
-
-track_history = defaultdict(lambda: [])
-
-
-Products_added = []
-out_line=[]
-in_line=[]
-Final=[]
-U_Final=[]
-current_total =0
-Free = []
-
 
 # Load JSON key file from GitHub
 def load_json_key():
@@ -52,21 +38,12 @@ if not firebase_admin._apps:
 def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_text, kpi4_text,kpi5_text,stframe_s,stframe_t):
     cap_s = cv2.VideoCapture(video_name_s)
     cap_t = cv2.VideoCapture(video_name_t)
-    
-    # -----Background Subtractor---------------------------------------
-    # backgroundObject = cv2.createBackgroundSubtractorMOG2(history=2)
-    # kernel = np.ones((3, 3), np.uint8)
-
     cap_s.set(3, 1920)
     cap_s.set(4, 1080)
 
     cap_t.set(3, 1920)
     cap_t.set(4, 1080)
-
-    image_width = int(cap_s.get(3))
-    image_height = int(cap_s.get(4))
-
-    #----- MODEL ----------------------------------------------------------
+   #----- MODEL ----------------------------------------------------------
     #Get the absolute path of the current file
     FILE = Path(__file__).resolve()
     # Get the parent directory of the current file
@@ -85,135 +62,20 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
     
     #Display the video frame by frame
     stop_button = st.button("Stop")
-
-    
-    #------ BOUNDARY LINES --------------------------------------------------------------
-    left_limits1 = [250 , 50 ,250, 1000 ]
-    left_limits2 = [350 , 50, 350, 1000 ]
-
-    right_limits1 = [1650 ,50, 1650 , 1000 ]
-    right_limits2 = [1550 ,50, 1550 , 1000 ]
-
-    top_limits1 = [250 , 50 , 1650 , 50 ]
-    top_limits2 = [250 , 100 , 1550 , 100]
-
-    bottom_limits1 = [250 ,1000 , 1650 ,1000]
-    bottom_limits2 = [350 , 950 , 1550 , 950]
-
-    #-------SIDE Window-----------------------------------------------------------------------------------
-    top_limits1_s = [0 , 450 , 1920 ,450 ]
-    top_limits2_s = [0 , 500 , 1920 ,500 ]
-    top_limits3_s = [0 , 650 , 1920 ,650 ]
-
-
-    #!!!!!!! -details !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    # tb="shop3"
-    # product="Mango"
-    # db=firestore.client()
-    # doc_ref=db.collection(tb).document(product)
-    # doc=doc_ref.get()
-    # if doc.exists:
-    #   #st.title(doc.to_dict())
-    #   doc_data = doc.to_dict()
-    #   field_value = doc_data.get('Stock')
-    #   kpi4_text.write(f"<h1  style='color:red;'>{field_value}</h1>",unsafe_allow_html=True)    
-    #   #st.title(field_value)
-   
-    # else:
-    #   st.title("NOT FOUND")
-
-
-    current_total=0
-
-    # ----SIDE-----------
-    totalCount_s = []
-
-    Total_products_s = 0
-    Products_added_s = []
-    Products_removed_s = []
-    out_line_s = []
-    in_line_s = []
-
-    # ---TOP----------------
-    totalCount_t = []
-
-    Total_products_t = 0
-    Products_added_t = []
-    Products_removed_t = []
-
-    out_line_t = []
-    in_line_t = []
-
-    #Final = []
-    Hide = []
-    Hide_remove = []
-    Segment_remove = []
-
-    # -----------Directions------------
-    Left = []
-    Right = []
-    Top = []
-    Bottom = []
-
-    # ----Time--------------
-    start = time.time()
-    Hide_add_time = 0
-    Hide_remove_time = 0
-
     
     while cap_t.isOpened() and cap_s.isOpened() and not stop_button:
               success_t, img_t= cap_t.read()
               success_s, img_s= cap_s.read()
-              # results_t = model(img_t, stream=True)
-              # results_s = model(img_s, stream=True)
-              # detections_t = np.empty((0,5))
-              # detections_s = np.empty((0,5))
-              # allArray_t = []
-              # allArray_s = []
-              # currentClass_s = ""
-              # currentClass_t = ""
 
               if success_t:
                     res_t = model.track(img_t, conf=0.3, persist=True, tracker="botsort.yaml")
-                    boxes = res_t[0].boxes.xywh.cpu()
-                    clss = res_t[0].boxes.cls.cpu().tolist()
-                    track_ids = res_t[0].boxes.id.int().cpu().tolist()
-            
-                    annotator = Annotator(img_t, line_width=2,
-                                          example=str(names))
-                    
-
-                    for box, track_id, cls in zip(boxes, track_ids, clss):
-                        x, y, w, h = box
-                        x1, y1, x2, y2 = (x - w / 2, y - h / 2,
-                                          x + w / 2, y + h / 2)
-                        label = str(names[cls]) + " : " + str(track_id)
-                        annotator.box_label([x1, y1, x2, y2],
-                                            label, (218, 100, 255))
-            
-                        # Tracking Lines plot
-                        track = track_history[track_id]
-                        track.append((float(box[0]), float(box[1])))
-                        if len(track) > 30:
-                            track.pop(0)
-            
-                        points = np.hstack(track).astype(np.int32).reshape((-1, 1, 2))
-                        cv2.polylines(img_t, [points], isClosed=False,
-                                      color=(37, 255, 225), thickness=2)
-            
-                        # Center circle
-                        cv2.circle(img_t,
-                                   (int(track[-1][0]), int(track[-1][1])),
-                                   5, (235, 219, 11), -1)
-
-                  #res_plotted_t = res_t[0].plot()
-                    stframe_t.image(img_t,channels="BGR",use_column_width=True)
+                    res_plotted_t = res_t[0].plot()
+                    stframe_t.image(res_plotted_t,channels="BGR",use_column_width=True)
 
         
               if success_s:
                   res_s = model.track(img_s, conf=0.3, persist=True, tracker="botsort.yaml")
                   res_plotted_s = res_s[0].plot()
-                   
                   stframe_s.image(res_plotted_s,channels="BGR",use_column_width=True)
     
     st.title("!! DONE !!")
