@@ -175,9 +175,9 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
 
               if success_t:
                     res_t = model.track(img_t, conf=0.3, persist=True, tracker="botsort.yaml")
-                    boxes = results[0].boxes.xywh.cpu()
-                    clss = results[0].boxes.cls.cpu().tolist()
-                    track_ids = results[0].boxes.id.int().cpu().tolist()
+                    boxes = res_t[0].boxes.xywh.cpu()
+                    clss = res_t[0].boxes.cls.cpu().tolist()
+                    track_ids = res_t[0].boxes.id.int().cpu().tolist()
             
                     annotator = Annotator(img_t, line_width=2,
                                           example=str(names))
