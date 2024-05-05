@@ -12,6 +12,7 @@ from firebase_admin import credentials,firestore,auth
 from google.cloud.firestore_v1.base_query import FieldFilter,Or
 import requests
 import time
+import torch
 #from sort import *
 
 # Load JSON key file from GitHub
@@ -59,6 +60,13 @@ def load_product_counter(video_name_s,video_name_t, kpi1_text, kpi2_text, kpi3_t
     model = YOLO(DETECTION_MODEL)
     classNames = ['Cinthol_Soap', 'Hamam_Soap', 'Him_Face_Wash', 'Maa_Juice', 'Mango', 'Mysore_Sandal_Soap','Patanjali_Dant_Kanti', 'Tide_Bar_Soap', 'ujala_liquid']
     #st.title("Streamlit Video Player")
+    
+    try:
+      device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+      st.title(torch.cuda.is_available())
+      model.to(device)
+    except Exception as e:
+      st.title("Error occurred while moving model to device:"+str(e) )
     
     #Display the video frame by frame
     stop_button = st.button("Stop")
