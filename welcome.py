@@ -7,7 +7,8 @@ import cvzone
 import math
 from pathlib import Path
 import sys
-from obj_detect_img_video import *
+#from obj_detect_img_video import *
+from old_work import * 
 from sort import *
 
 def main():
